@@ -4,7 +4,7 @@ try {
     window.$ = window.jQuery = require("jquery");
     window.Popper = require("@popperjs/core");
     window.bootstrap = require("bootstrap");
-
+    window.moment = require("moment");
 } catch (e) {}
 
 /**

@@ -7,6 +7,6 @@
 body {
     box-sizing: border-box;
     font-family: 'Poppins';
-    scroll-behavior: smooth;
+    scroll-behavior: smooth!important;
     font-size: medium;
 }

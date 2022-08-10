@@ -1,5 +1,6 @@
 @extends('layouts.public_layout')
 
+@section('title', 'Home | Philippine Institute of Civil Enginerring')
 
 @section('content')
     <style>
@@ -13,14 +14,14 @@
             background-color: transparent;
         }
     </style>
-    <div id="banner-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div id="banner-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="3" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="4" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="5" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="1"></button>
+            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="1" aria-label="2"></button>
+            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="2" aria-label="3"></button>
+            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="3" aria-label="4"></button>
+            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="4" aria-label="5"></button>
+            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="5" aria-label="6"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -56,8 +57,8 @@
         #message-from-the-president {
             display: grid;
             grid-template-columns: 1fr 5fr;
-            padding: 5rem;
-            gap: 5rem;
+            padding: 5.25rem;
+            gap: 3.25rem;
         }
 
         #message-from-the-president>div.message {
@@ -67,7 +68,8 @@
 
 
         #message-from-the-president>div.message>h4 {
-            margin-top: auto
+            margin-top: auto;
+            color: #1c76c5;
         }
     </style>
     <div id="message-from-the-president">

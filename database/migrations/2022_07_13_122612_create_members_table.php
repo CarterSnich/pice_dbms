@@ -15,37 +15,49 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
+
+            // user account
+            $table->string('membership_id')->unique();
+            $table->string('password');
+
             // application details
-            $table->date('date');
+            $table->enum('membership_status', ['renewed', 'new']);
             $table->string('chapter');
+            $table->string('year_chap_no_natl_no');
+            $table->string('photo');
             $table->enum('membership', ['regular', 'associate']);
+            $table->string('prc_registration_no');
             $table->date('registration_date');
+
             // applicant information
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename')->nullable();
-            $table->date('birth_date');
-            $table->date('birth_place');
+            $table->date('date_of_birth');
+            $table->string('place_of_birth');
             $table->enum('gender', ['male', 'female']);
             $table->enum('civil_status', ['single', 'married', 'divorced', 'widowed']);
             $table->string('religion')->nullable();
             $table->string('home_address');
-            $table->string('contact_no', 11);
-            $table->string('email');
+            $table->string('office_tel_no');
+            $table->string('mobile_phone_no', 11);
             $table->string('company_name');
+            $table->string('email');
             $table->string('company_address');
             $table->string('position');
             $table->string('sector');
-            $table->string('office_tel_no');
+
             // educational details
             $table->string('baccalaureate_degree');
             $table->string('baccalaureate_college');
             $table->year('baccalaureate_year');
-            $table->string('post_grad_degree');
-            $table->string('post_grad_college');
-            $table->year('post_grad_year');
-            $table->string('field_of_specialization');
+            $table->string('post_graduate_degree');
+            $table->string('post_graduate_college');
+            $table->year('post_graduate_year');
+            $table->string('fields_of_specialization');
+
             // --------------------------------------
+            $table->rememberToken();
             $table->timestamps();
         });
     }

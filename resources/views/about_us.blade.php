@@ -1,11 +1,12 @@
 @extends('layouts.public_layout')
 
+@section('title', 'About Us | Philippine Institute of Civil Enginerring')
+
 @section('style')
     <style>
         .section {
             text-align: center;
-            padding-inline: 5.25rem;
-            padding-block: 3.25rem;
+            padding: 5.25rem;
         }
 
         .section>p {
@@ -17,7 +18,7 @@
 
 @section('content')
     {{-- some random banner or whatnot --}}
-    <div>
+    <div class="page-banner">
         <img src="{{ asset('images/HISTORY-1536x240.png') }}" alt="">
     </div>
     {{-- pice mission --}}

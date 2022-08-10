@@ -57,14 +57,26 @@ class AdministrationController extends Controller
     public function members(Request $request) // members page
     {
         return view('administration.members', [
-            'members' => Member::where('membership', '=', $request['type'])->paginate(50)
+            'members' => Member::where('membership', '=', $request['membership'])->paginate(50)
         ]);
     }
 
-    public function applications()
+    public function applications(Request $request)
     {
         return view('administration.applications', [
-            'applications' => Application::all()
+            'applications' => Application::where('status', '=', $request['status'])->get()
         ]);
+    }
+
+    // membership fees
+    public function membership_fees(Request $request)
+    {
+        return
+            view('administration.membership_fees', [
+                'applications' => Application::where([
+                    ['status', '=', 'pending'],
+                    ['date_paid', '=', null]
+                ])->get()
+            ]);
     }
 }
