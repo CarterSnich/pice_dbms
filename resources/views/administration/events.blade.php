@@ -184,6 +184,7 @@
         postEventModalElem.addEventListener('hidden.bs.modal', function(e) {
             $('#post-event-form').trigger('reset')
             $('#post-event-form div>img').parent().addClass('d-none')
+            $('.error-message').addClass('d-none').empty()
         })
 
 
