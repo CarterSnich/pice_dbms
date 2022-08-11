@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Administrator;
-use App\Models\Application;
+use App\Models\Event;
 use App\Models\Member;
+use App\Models\Application;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Administrator;
 
 class AdministrationController extends Controller
 {
@@ -49,11 +49,13 @@ class AdministrationController extends Controller
     |--------------------------------------------------------------------------
     */
 
+    // login page
     public function login() // admin login page
     {
         return view('administration.login');
     }
 
+    // members page
     public function members(Request $request) // members page
     {
         return view('administration.members', [
@@ -61,6 +63,7 @@ class AdministrationController extends Controller
         ]);
     }
 
+    // apllications page
     public function applications(Request $request)
     {
         return view('administration.applications', [
@@ -69,7 +72,7 @@ class AdministrationController extends Controller
     }
 
     // membership fees
-    public function membership_fees(Request $request)
+    public function membership_fees()
     {
         return
             view('administration.membership_fees', [
@@ -78,5 +81,13 @@ class AdministrationController extends Controller
                     ['date_paid', '=', null]
                 ])->get()
             ]);
+    }
+
+    // events page
+    public function events()
+    {
+        return view('administration.events', [
+            'events' => Event::all()
+        ]);
     }
 }

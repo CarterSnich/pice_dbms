@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdministrationController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
 
@@ -27,6 +28,7 @@ use App\Http\Controllers\PublicController;
 Route::get('/', [PublicController::class, 'index'])->middleware('web');
 Route::get('/about-us', [PublicController::class, 'about_us'])->middleware('web');
 Route::get('/events', [PublicController::class, 'events'])->middleware('web');
+Route::get('/events/{event}', [PublicController::class, 'event'])->middleware('web');
 Route::get('/membership', [PublicController::class, 'membership'])->middleware('web');
 Route::get('/application', [PublicController::class, 'application'])->middleware('web');
 Route::get('/contact-us', [PublicController::class, 'contact_us'])->middleware('web');
@@ -48,6 +50,7 @@ Route::get('/administration', [AdministrationController::class, 'login'])->name(
 Route::get('/administration/members', [AdministrationController::class, 'members'])->middleware('auth:administrator');
 Route::get('/administration/applications', [AdministrationController::class, 'applications'])->middleware('auth:administrator');
 Route::get('/administration/membership_fees', [AdministrationController::class, 'membership_fees'])->middleware('auth:administrator');
+Route::get('/administration/events', [AdministrationController::class, 'events'])->middleware('auth:administrator');
 
 // Admin login
 Route::post('/administration/authenticate', [AdministrationController::class, 'authenticate']);
@@ -61,3 +64,7 @@ Route::post('/administration/applications/reject/{application}', [ApplicationCon
 
 // membership fees routes
 Route::post('/administration/membership_fees/paid/{application}', [ApplicationController::class, 'paid'])->middleware('auth:administrator');
+
+
+// events
+Route::post('/administration/events', [EventController::class, 'store'])->middleware('auth:administrator');

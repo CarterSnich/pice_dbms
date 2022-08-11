@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -21,7 +22,17 @@ class PublicController extends Controller
     // events
     public function events()
     {
-        return view('events');
+        return view('events', [
+            'events' => Event::all()
+        ]);
+    }
+
+    // event
+    public function event(Event $event)
+    {
+        return view('event', [
+            'event' => $event
+        ]);
     }
 
     // membership

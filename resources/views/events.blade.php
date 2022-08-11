@@ -69,46 +69,20 @@
 
         <div class="card-wrapper">
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/">
-                        <img src="{{ asset('images/event.png') }}" alt="">
-                        <h4 class="my-auto text-center">Lorem Ipsum</h4>
-                    </a>
-                </div>
+                @foreach ($events as $event)
+                    <div class="col">
+                        <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/events/{{ $event->id }}">
+                            <img class="h-100" src="{{ asset("storage/event-pictures/{$event->picture}") }}" alt="">
+                            <h4 class="my-auto text-center">{{ $event->title }}</h4>
+                        </a>
+                    </div>
+                @endforeach
 
-                <div class="col">
-                    <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/">
-                        <img src="{{ asset('images/event.png') }}" alt="">
-                        <h4 class="my-auto text-center">Lorem Ipsum</h4>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/">
-                        <img src="{{ asset('images/event.png') }}" alt="">
-                        <h4 class="my-auto text-center">Lorem Ipsum</h4>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/">
-                        <img src="{{ asset('images/event.png') }}" alt="">
-                        <h4 class="my-auto text-center">Lorem Ipsum</h4>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/">
-                        <img src="{{ asset('images/event.png') }}" alt="">
-                        <h4 class="my-auto text-center">Lorem Ipsum</h4>
-                    </a>
-                </div>
-
-                <div class="col d-flex justify-content-center align-items-center">
+                {{-- <div class="col d-flex justify-content-center align-items-center">
                     <a href="/events/all">
                         <h2>More...</h2>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

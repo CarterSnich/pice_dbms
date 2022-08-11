@@ -17,10 +17,11 @@ class CreateEventsTable extends Migration
             $table->id();
             // event head information
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
+            $table->string('picture');
             // details
-            $table->timestamp('start_date');
-            $table->timestamp('end_date')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->decimal('cost', 8, 2)->nullable();
             // organizer details
             $table->string('organizer');
