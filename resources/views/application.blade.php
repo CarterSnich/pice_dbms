@@ -477,10 +477,10 @@
         $('form#application-form').on('submit', function(e) {
             e.preventDefault()
             $('#popup-alert-wrapper').empty()
+            $('form#application-form button[type=submit]').attr('disabled', true)
 
             let formValues = $(this).serializeArray() // serialize all inputs
             let body = new FormData() // create new instance for form data
-            // console.dir(formValues)
 
             // append all serialized inputs
             formValues.forEach(input => {

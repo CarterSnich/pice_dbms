@@ -15,43 +15,59 @@ class ApplicationFactory extends Factory
      */
     public function definition()
     {
+        $membership = $this->faker->randomElement(['regular', 'associate']);
+        $status = $this->faker->randomElement(['pending', 'approved', 'not_approved']);
         return [
+
+            // application date
+            'application_id' => strtoupper(Str::random(12)),
+            'date' => $this->faker->date(),
+            'status' => $status,
+            'application_form' => $this->faker->randomElement(['TPJBCobmEj2NdwLeFEw63t5zIultpJKSJdgf4zKK.pdf', null]),
+            'reject_reason' =>  $status == 'not_approved' ? $this->faker->word() : null,
+            'date_paid' => $this->faker->randomElement([$this->faker->date(), null]),
+            'membership_fee' => $membership == 'regular' ? 700 : 900,
+
             // application details
-            'date' => Carbon::now(),
-            'new_membership' => $this->faker->boolean(),
-            'chapter' => 'Leyte',
-            'membership' => $this->faker->randomElement(['regular', 'associate']),
-            'prc_registration_no' => Str::random(12),
-            'registration_date' => Carbon::now(),
+            'membership_status' => $this->faker->randomElement(['renewed', 'new']),
+            'chapter' => $this->faker->word(),
+            'year_chap_no_natl_no' => $this->faker->word(),
+            'photo' => $this->faker->randomElement([
+                'nEeVV2UuSyzZghxl8f3MPRAVybnJv7gUe1gBSWPC.jpg',
+                'FD1dXBBgTw0Kwdr73AnQLCTwUeyymXXzSL0Vm44t.png',
+                'zYdA6DSoZNIoJrChREmgtCI0W9fiPJltPZHcP3cy.png'
+            ]),
+            'membership' => $membership,
+            'prc_registration_no' => $this->faker->numerify("2000-" . strtoupper(Str::random(4)) . "######"),
+            'registration_date' => $this->faker->date(),
+
             // applicant information
             'lastname' => $this->faker->lastName(),
             'firstname' => $this->faker->firstName(),
-            'middlename' => $this->faker->randomElement([null, $this->faker->lastName()]),
-            'birth_date' => $this->faker->date(),
-            'birth_place' => $this->faker->date(),
+            'middlename' => $this->faker->randomElement([$this->faker->lastName(), null]),
+            'date_of_birth' => $this->faker->date(),
+            'place_of_birth' => $this->faker->city(),
             'gender' => $this->faker->randomElement(['male', 'female']),
             'civil_status' => $this->faker->randomElement(['single', 'married', 'divorced', 'widowed']),
-            'religion' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
+            'religion' => $this->faker->word(),
             'home_address' => $this->faker->address(),
-            'contact_no' => $this->faker->numerify('09#########'),
-            'email' => $this->faker->email(),
-            'company_name' => $this->faker->company(),
-            'company_address' => $this->faker->address(),
-            'position' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
-            'sector' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
             'office_tel_no' => $this->faker->phoneNumber(),
+            'mobile_phone_no' => $this->faker->numerify('09#########'),
+            'company_name' => $this->faker->company(),
+            'email' => $this->faker->companyEmail(),
+            'company_address' => $this->faker->address(),
+            'position' => $this->faker->word(),
+            'sector' => $this->faker->word(),
+
             // educational details
-            'baccalaureate_degree' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
-            'baccalaureate_college' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
+            'baccalaureate_degree' => $this->faker->word(),
+            'baccalaureate_college' => $this->faker->word(),
             'baccalaureate_year' => $this->faker->year(),
-            'post_grad_degree' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
-            'post_grad_college' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
-            'post_grad_year' => $this->faker->year(),
-            'field_of_specialization' => ucfirst(strtolower("{$this->faker->word()} {$this->faker->word()}")),
-            // action of the secretariat
-            'processed_by' => $this->faker->name('female'),
-            'processed_date' => Carbon::now(),
-            'encoded_by' => $this->faker->name()
+            'post_graduate_degree' => $this->faker->word(),
+            'post_graduate_college' => $this->faker->word(),
+            'post_graduate_year' => $this->faker->year(),
+            'fields_of_specialization' => $this->faker->word()
+
         ];
     }
 }

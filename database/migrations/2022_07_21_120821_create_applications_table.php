@@ -1,9 +1,10 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateApplicationsTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateApplicationsTable extends Migration
 
             // application date
             $table->string('application_id')->unique();
-            $table->date('date')->default(Carbon::now());
+            $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->enum('status', ['pending', 'approved', 'not_approved'])->default('pending');
             $table->string('application_form')->nullable();
             $table->string('reject_reason')->nullable();

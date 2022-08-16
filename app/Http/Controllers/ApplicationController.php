@@ -249,6 +249,31 @@ class ApplicationController extends Controller
             );
     }
 
+    public function get_applications(Request $request)
+    {
+        if ($request->get('status')) {
+            return
+                response([
+                    'status' => 200,
+                    'data' => Application::where('status', '=', $request->get('status'))->get(),
+                    'toast' => [
+                        'type' => null,
+                        'message' => null
+                    ]
+                ]);
+        } else {
+            return
+                response([
+                    'status' => 200,
+                    'data' => Application::all(),
+                    'toast' => [
+                        'type' => null,
+                        'message' => null
+                    ]
+                ]);
+        }
+    }
+
     // preview form
     public function form(Application $application)
     {

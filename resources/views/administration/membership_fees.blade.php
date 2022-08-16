@@ -91,7 +91,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="confirm btn btn-primary">Confirm</button>
+                    <button type="button" class="confirm btn btn-primary">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        Confirm
+                    </button>
                 </div>
             </div>
         </div>
@@ -123,7 +126,10 @@
         })
 
         $(confirmPaidModalElem).find('button.confirm').on('click', function(e) {
+            let spinner = $(this).find('span')
+            spinner.removeClass('d-none');
             let applicationID = $(this).attr('data-application-id')
+
             fetch(`/administration/membership_fees/paid/${applicationID}`, {
                     method: 'POST',
                     headers: {
@@ -145,7 +151,9 @@
                 .catch((err) => {
                     console.error(err)
                     alert('Something happened.')
-                });
+                })
+
+            spinner.addClass('d-none')
 
         })
     </script>

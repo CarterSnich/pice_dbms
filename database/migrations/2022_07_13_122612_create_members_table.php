@@ -19,6 +19,13 @@ class CreateMembersTable extends Migration
             // user account
             $table->string('membership_id')->unique();
             $table->string('password');
+            $table->enum('role', [
+                'super_admin',
+                'president',
+                'secretary',
+                'treasure',
+                'information_officer'
+            ])->nullable()->default(null);
 
             // application details
             $table->enum('membership_status', ['renewed', 'new']);

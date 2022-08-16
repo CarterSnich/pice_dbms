@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         Administrator::factory(1)->create();
 
         // applications
-        // Application::factory(120)->create();
+        for ($i = 0; $i < 120; $i++) {
+            Application::factory()->create();
+        }
     }
 }

@@ -10,12 +10,14 @@
             padding: 5.25rem 3.25rem;
         }
 
+
         .card-wrapper .card {
             min-height: 186px;
             position: relative;
             overflow: hidden;
             text-decoration: none;
             outline: none;
+            transition: transform 0.3s ease;
         }
 
         .card-wrapper .card img {
@@ -26,29 +28,36 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: filter 0.3s ease;
+            filter: brightness(60%);
         }
 
-        .card-wrapper .card h4 {
-            display: none;
-            color: whitesmoke;
-            transition: display 0.3s ease;
+        .card-wrapper .card .event-details {
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            justify-content: end;
+            color: white;
+            gap: .5rem;
             z-index: 1;
         }
 
-        .card-wrapper .card-cover {
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
-            transition: filter 0.3s;
+        .card-wrapper .card .event-details h4 {
+            color: inherit;
+            margin: 0;
+            text-shadow: 2px 2px 4px #00000050
         }
 
-        .card-wrapper .card:hover img {
-            filter: brightness(50%);
+
+        .card-wrapper .row .col {
+            position: relative;
         }
 
-        .card-wrapper .card:hover h4 {
-            display: unset;
+        .card-wrapper .row .col:hover .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform: scale(110%);
+            z-index: 10;
         }
     </style>
 @endsection
@@ -73,7 +82,26 @@
                     <div class="col">
                         <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/events/{{ $event->id }}">
                             <img class="h-100" src="{{ asset("storage/event-pictures/{$event->picture}") }}" alt="">
-                            <h4 class="my-auto text-center">{{ $event->title }}</h4>
+                            <div class="event-details">
+                                <h4>{{ $event->title }}</h4>
+                                @php
+                                    $start_date = \Carbon\Carbon::create($event->start_date);
+                                    $end_date = \Carbon\Carbon::create($event->end_date);
+
+                                    if ($start_date->equalTo($end_date)) {
+                                        $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year}";
+                                    } else {
+                                        if ($start_date->diffInMonths($end_date)) {
+                                            $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year} - {$end_date->englishMonth} {$end_date->day}, {$end_date->year}";
+                                        } else {
+                                            $date_duration = "{$start_date->englishMonth} {$start_date->day} - {$end_date->day}, {$end_date->year}";
+                                        }
+                                    }
+                                @endphp
+                                <small>
+                                    {{ $date_duration }}
+                                </small>
+                            </div>
                         </a>
                     </div>
                 @endforeach

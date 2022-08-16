@@ -58,8 +58,14 @@ class AdministrationController extends Controller
     // members page
     public function members(Request $request) // members page
     {
+        if ($request->get('membership', null) == 'all') {
+            $members = Member::paginate(50);
+        } else {
+            $members = Member::where('membership', '=', $request['membership'])->paginate(50);
+        }
+
         return view('administration.members', [
-            'members' => Member::where('membership', '=', $request['membership'])->paginate(50)
+            'members' => $members
         ]);
     }
 

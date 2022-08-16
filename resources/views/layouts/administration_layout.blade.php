@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Laravel</title>
+    <title>@yield('title', 'Administration') | Philippine Institute of Civil Engineering, Inc. Metro-Tacloban Chapter</title>
 
     {{-- app.css --}}
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
@@ -70,19 +70,20 @@
             background-color: #d2f4ea;
         }
 
-        .btn-toggle::before {
+        .btn-toggle[data-bs-toggle=collapse]::after {
             width: 1.25em;
             line-height: 0;
             content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
             transition: transform .35s ease;
             transform-origin: .5em 50%;
+            margin-left: auto
         }
 
         .btn-toggle[aria-expanded=true] {
             color: rgba(0, 0, 0, .85);
         }
 
-        .btn-toggle[aria-expanded=true]::before {
+        .btn-toggle[aria-expanded=true]::after {
             transform: rotate(90deg);
         }
 
@@ -143,19 +144,36 @@
             <img src="{{ asset('images/pice_logo_full.png') }}" alt="banner-full" class="img-fluid">
         </a>
         <ul class="list-unstyled ps-0">
+
+            {{-- members --}}
             <li class="mb-1">
-                <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#members-collapse" aria-expanded="{{ request()->is('administration/members') ? 'true' : 'false' }}">
+                <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#members-collapse" aria-expanded="{{ request()->is('administration/members') ? 'true' : 'false' }}">
                     Members
                 </button>
                 <div class="collapse {{ request()->is('administration/members') ? 'show' : '' }}" id="members-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li><a href="/administration/members?membership=regular" class="link-dark rounded {{ request()->get('membership') == 'regular' ? 'bg-info' : '' }}">Regular</a></li>
-                        <li><a href="/administration/members?membership=associate" class="link-dark rounded {{ request()->get('membership') == 'associate' ? 'bg-info' : '' }}">Associate</a></li>
+                        <li>
+                            <a href="/administration/members?membership=regular" class="link-dark rounded {{ request()->get('membership') == 'regular' ? 'bg-info' : '' }}">
+                                Regular
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/administration/members?membership=associate" class="link-dark rounded {{ request()->get('membership') == 'associate' ? 'bg-info' : '' }}">
+                                Associate
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/administration/members?membership=all" class="link-dark rounded {{ request()->get('membership') == 'all' ? 'bg-info' : '' }}">
+                                All
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
+
+            {{-- applications --}}
             <li class="mb-1">
-                <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#applications-collapse" aria-expanded="{{ request()->is('administration/applications') ? 'true' : 'false' }}">
+                <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#applications-collapse" aria-expanded="{{ request()->is('administration/applications') ? 'true' : 'false' }}">
                     Applications
                 </button>
                 <div class="collapse {{ request()->is('administration/applications') ? 'show' : '' }}" id="applications-collapse">
@@ -173,14 +191,18 @@
                     </ul>
                 </div>
             </li>
+
+            {{-- membership fees --}}
             <li class="mb-1">
-                <a href="/administration/events" class="btn btn-toggle align-items-center rounded {{ request()->is('administration/events') ? 'bg-info' : '' }}">
-                    Events
+                <a href="/administration/membership_fees" class="btn w-100 btn-toggle align-items-center rounded {{ request()->is('administration/membership_fees') ? 'bg-info' : '' }}">
+                    Membership fees
                 </a>
             </li>
+
+            {{-- events --}}
             <li class="mb-1">
-                <a href="/administration/membership_fees" class="btn btn-toggle align-items-center rounded {{ request()->is('administration/membership_fees') ? 'bg-info' : '' }}">
-                    Membership fees
+                <a href="/administration/events" class="btn btn-toggle w-100 align-items-center rounded {{ request()->is('administration/events') ? 'bg-info' : '' }}">
+                    Events
                 </a>
             </li>
         </ul>
