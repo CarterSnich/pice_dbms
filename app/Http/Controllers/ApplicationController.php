@@ -54,6 +54,9 @@ class ApplicationController extends Controller
                 'post_graduate_college' => ['required'],
                 'post_graduate_year' => ['required', 'digits:4'],
                 'fields_of_specialization' => ['required'],
+            ],
+            [
+                'date_of_birth.required' => 'Enter a valid date.'
             ]
         );
 

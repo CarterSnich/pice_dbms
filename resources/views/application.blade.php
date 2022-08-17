@@ -519,7 +519,7 @@
                             </div>
                         `)
                     }
-
+                    $('form#application-form button[type=submit]').attr('disabled', false)
                 })
         })
 
