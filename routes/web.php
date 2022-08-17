@@ -75,6 +75,8 @@ Route::post('/administration/logout', [AdministrationController::class, 'logout'
 
 // members
 Route::post('/administration/members/get_member', [MemberController::class, 'get_member'])->middleware('auth:administrator');
+Route::get('/administration/members/{member}/edit', [MemberController::class, 'edit_member'])->middleware('auth:administrator');
+Route::post('/administration/members/{member}/edit', [MemberController::class, 'update_member'])->middleware('auth:administrator');
 
 // applications
 Route::post('/administration/applications/get_application', [ApplicationController::class, 'application'])->middleware('auth:administrator');

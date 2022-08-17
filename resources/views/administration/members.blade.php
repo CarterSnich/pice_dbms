@@ -86,9 +86,11 @@
                                 </a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm" data-member-id="{{ $member->id }}">
-                                    Action
-                                </button>
+                                <div class="d-inline">
+                                    <a href="/administration/members/{{ $member->id }}/edit" class="btn btn-primary btn-sm" data-member-id="{{ $member->id }}">
+                                        Update
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -359,7 +361,7 @@
 
         })
 
-        $('table tbody tr a').on('click', function(event) {
+        $('table tbody tr td>a').on('click', function(event) {
             let memberId = this.getAttribute('data-member-id')
             let body = new FormData();
             body.append('member_id', memberId)
