@@ -27,9 +27,9 @@
             background-color: #161f27;
             font-family: inherit;
             font-size: inherit;
-            padding: 10px;
-            padding-right: 10px;
-            padding-left: 10px;
+            padding-block: 10px;
+            padding-right: 30px;
+            padding-left: 30px;
             border: none;
             border-radius: 6px;
             outline: none;
@@ -43,6 +43,10 @@
 
         .section>.membership>div>.form-link:focus {
             border-color: #0096bfab;
+        }
+
+        .section>.membership>div>.form-link:active {
+            transform: translateY(2px);
         }
 
         .section>.membership-instructions>ul {

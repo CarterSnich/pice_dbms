@@ -16,4 +16,7 @@ mix.js("resources/js/app.js", "public/js")
     .sourceMaps();
 
 // css
-mix.css("resources/css/app.css", "public/css");
+mix.css("resources/css/app.css", "public/css").css(
+    "resources/css/water-dark.css",
+    "public/css"
+);

@@ -27,7 +27,7 @@ use App\Models\Member;
 */
 
 // public pages
-Route::get('/', [PublicController::class, 'index']);
+Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/about-us', [PublicController::class, 'about_us']);
 Route::get('/events', [PublicController::class, 'events']);
 Route::get('/events/{event}', [PublicController::class, 'event']);
@@ -63,7 +63,7 @@ Route::post('/member/logout', [MemberController::class, 'logout']);
 */
 
 // administration pages
-Route::get('/administration', [AdministrationController::class, 'login'])->name('login')->middleware('guest:administrator');
+Route::get('/administration', [AdministrationController::class, 'login'])->middleware('guest:administrator');
 Route::get('/administration/members', [AdministrationController::class, 'members'])->middleware('auth:administrator');
 Route::get('/administration/applications', [AdministrationController::class, 'applications'])->middleware('auth:administrator');
 Route::get('/administration/membership_fees', [AdministrationController::class, 'membership_fees'])->middleware('auth:administrator');

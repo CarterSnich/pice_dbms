@@ -101,10 +101,12 @@
                     <div class="section">
                         <label class="section-title fs-4">Membership status</label>
                         <div class="section-input">
+                            {{-- renewed --}}
                             <div class="radio-wrapper">
                                 <input type="radio" name="membership_status" id="new_membership_renewal" value="renewed" required {{ old('membership_status') == 'renewal' ? 'checked' : '' }}>
                                 <label class="fs-5" for="new_membership_renewal">Renewed/Reinstated</label>
                             </div>
+                            {{-- new --}}
                             <div class="radio-wrapper">
                                 <input type="radio" name="membership_status" id="new_membership_new" value="new" {{ old('membership_status') == 'new' ? 'checked' : '' }}>
                                 <label class="fs-5" for="new_membership_new">New</label>
@@ -119,7 +121,7 @@
                     <div class="section">
                         <label class="section-title fs-4">Chapter</label>
                         <div class="section-input">
-                            <input type="text" class="w-100" name="chapter" value="{{ old('chapter') }}" required>
+                            <input type="text" class="w-100" name="chapter" value="{{ old('chapter') ?? 'Tacloban' }}" required>
                             <div class="error-message text-danger" data-error-for="chapter"></div>
                         </div>
                     </div>
@@ -150,13 +152,25 @@
                     <div class="section">
                         <label class="section-title fs-4">Membership</label>
                         <div class="section-input">
+                            {{-- regular --}}
                             <div class="radio-wrapper">
                                 <input type="radio" name="membership" id="membership_regular" value="regular" {{ old('membership') == 'regular' ? 'checked' : '' }} required>
                                 <label class="fs-5" for="membership_regular">Regular</label>
                             </div>
+                            {{-- associate --}}
                             <div class="radio-wrapper">
                                 <input type="radio" name="membership" id="membership_associate" value="associate" {{ old('membership') == 'associate' ? 'checked' : '' }}>
                                 <label class="fs-5" for="membership_associate">Associate</label>
+                            </div>
+                            {{-- lifetime --}}
+                            <div class="radio-wrapper">
+                                <input type="radio" name="membership" id="membership_lifetime" value="lifetime" {{ old('membership') == 'lifetime' ? 'checked' : '' }}>
+                                <label class="fs-5" for="membership_lifetime">Lifetime</label>
+                            </div>
+                            {{-- affiliate --}}
+                            <div class="radio-wrapper">
+                                <input type="radio" name="membership" id="membership_affiliate" value="affiliate" {{ old('membership') == 'affiliate' ? 'checked' : '' }}>
+                                <label class="fs-5" for="membership_affiliate">Affiliate</label>
                             </div>
                             <div class="error-message text-danger" data-error-for="membership"></div>
                         </div>
@@ -269,8 +283,16 @@
                     {{-- religion --}}
                     <div class="section">
                         <label class="section-title fs-4">Religion</label>
+
+
                         <div class="section-input">
-                            <input type="text" class="w-100" name="religion" value="{{ old('religion') }}">
+                            <select name="religion" required>
+                                <option selected disabled value="">Select religion</option>
+                                @foreach (\App\Models\Religion::$religions as $code => $religion)
+                                    <option value="{{ $code }}" {{ old('religion') == $religion ? 'selected' : '' }}>{{ $religion }}</option>
+                                @endforeach
+                            </select>
+                            <div class="error-message text-danger" data-error-for="religion"></div>
                         </div>
                     </div>
 
@@ -362,7 +384,7 @@
                     <div class="section">
                         <label class="section-title fs-4">Baccalaureate Degree</label>
                         <div class="section-input">
-                            <input type="text" class="w-100" name="baccalaureate_degree" value="{{ old('baccalaureate_degree') }}" required>
+                            <input type="text" class="w-100" name="baccalaureate_degree" value="{{ old('baccalaureate_degree') ?? 'Civil Engineer' }}" required>
                             <div class="error-message text-danger" data-error-for="baccalaureate_degree"></div>
                         </div>
                     </div>
@@ -380,8 +402,14 @@
                     <div class="section">
                         <label class="section-title fs-4">Baccalaureate Year Graduated</label>
                         <div class="section-input">
-                            <input type="text" class="w-100" name="baccalaureate_year" value="{{ old('baccalaureate_year') }}" required>
-                            <div class="error-message text-danger" data-error-for="baccalaureate_year"></div>
+                            <select name="baccalaureate_year" required>
+                                <option selected disabled value="">Select year</option>
+                                @for ($i = 0; $i < 50; $i++)
+                                    @php $year = intval(date('Y')) - $i; @endphp
+                                    <option value="{{ $year }}" {{ old('baccalaureate_year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                @endfor
+                            </select>
+                            <div class="error-message text-danger" data-error-for="civil_status"></div>
                         </div>
                     </div>
 
@@ -500,7 +528,6 @@
                 })
                 .then(res => res.json())
                 .then(res => {
-                    console.dir(res)
                     if (res['status'] == 200) {
                         generatePdf(res['data'])
                         $('dialog#application-form-dialog')[0].showModal()
@@ -519,6 +546,11 @@
                             </div>
                         `)
                     }
+                    $('form#application-form button[type=submit]').attr('disabled', false)
+                })
+                .catch((err) => {
+                    console.error(err)
+                    alert('Something happened.')
                     $('form#application-form button[type=submit]').attr('disabled', false)
                 })
         })
