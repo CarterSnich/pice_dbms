@@ -76,43 +76,52 @@
             </h1>
         </div>
 
-        <div class="card-wrapper">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                @foreach ($events as $event)
-                    <div class="col">
-                        <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/events/{{ $event->id }}">
-                            <img class="h-100" src="{{ asset("storage/event-pictures/{$event->picture}") }}" alt="">
-                            <div class="event-details">
-                                <h4>{{ $event->title }}</h4>
-                                @php
-                                    $start_date = \Carbon\Carbon::create($event->start_date);
-                                    $end_date = \Carbon\Carbon::create($event->end_date);
+        @if ($events->count())
 
-                                    if ($start_date->equalTo($end_date)) {
-                                        $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year}";
-                                    } else {
-                                        if ($start_date->diffInMonths($end_date)) {
-                                            $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year} - {$end_date->englishMonth} {$end_date->day}, {$end_date->year}";
+            <div class="card-wrapper">
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                    @foreach ($events as $event)
+                        <div class="col">
+                            <a class="card bg-dark h-100 border-0 p-3 card-cover" href="/events/{{ $event->id }}">
+                                <img class="h-100" src="{{ asset("storage/event-pictures/{$event->picture}") }}" alt="">
+                                <div class="event-details">
+                                    <h4>{{ $event->title }}</h4>
+                                    @php
+                                        $start_date = \Carbon\Carbon::create($event->start_date);
+                                        $end_date = \Carbon\Carbon::create($event->end_date);
+
+                                        if ($start_date->equalTo($end_date)) {
+                                            $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year}";
                                         } else {
-                                            $date_duration = "{$start_date->englishMonth} {$start_date->day} - {$end_date->day}, {$end_date->year}";
+                                            if ($start_date->diffInMonths($end_date)) {
+                                                $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year} - {$end_date->englishMonth} {$end_date->day}, {$end_date->year}";
+                                            } else {
+                                                $date_duration = "{$start_date->englishMonth} {$start_date->day} - {$end_date->day}, {$end_date->year}";
+                                            }
                                         }
-                                    }
-                                @endphp
-                                <small>
-                                    {{ $date_duration }}
-                                </small>
+                                    @endphp
+                                    <small>
+                                        {{ $date_duration }}
+                                    </small>
+                                </div>
+                            </a>
+                        </div>
+                        @if ($loop > 5)
+                            <div class="col d-flex justify-content-center align-items-center">
+                                <a href="/events/all">
+                                    <h2>More...</h2>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-                @endforeach
-
-                {{-- <div class="col d-flex justify-content-center align-items-center">
-                    <a href="/events/all">
-                        <h2>More...</h2>
-                    </a>
-                </div> --}}
+                        @endif
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @else
+            <div class="h-100 w-100 d-flex">
+                <h2 class="text-dark m-auto">No events yet</h2>
+            </div>
+        @endif
     </div>
 
     {{-- featured news --}}

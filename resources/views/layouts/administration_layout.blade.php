@@ -171,20 +171,18 @@
                 <div class="collapse {{ request()->is('administration/members') ? 'show' : '' }}" id="members-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li>
-                            <a href="/administration/members?membership=regular" class="link-dark rounded {{ request()->get('membership') == 'regular' ? 'bg-info' : '' }}">
-                                Regular
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/administration/members?membership=associate" class="link-dark rounded {{ request()->get('membership') == 'associate' ? 'bg-info' : '' }}">
-                                Associate
-                            </a>
-                        </li>
-                        <li>
                             <a href="/administration/members?membership=all" class="link-dark rounded {{ request()->get('membership') == 'all' ? 'bg-info' : '' }}">
                                 All
                             </a>
                         </li>
+
+                        @foreach (App\Models\Member::$memberships as $type)
+                            <li>
+                                <a href="/administration/members?membership={{ $type }}" class="link-dark rounded {{ request()->get('membership') == $type ? 'bg-info' : '' }}">
+                                    {{ ucfirst($type) }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </li>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Member;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,20 +20,14 @@ class CreateMembersTable extends Migration
             // user account
             $table->string('membership_id')->unique();
             $table->string('password');
-            $table->enum('role', [
-                'super_admin',
-                'president',
-                'secretary',
-                'treasure',
-                'information_officer'
-            ])->nullable()->default(null);
+            $table->enum('role', Member::$roles)->nullable()->default(null);
 
             // application details
             $table->enum('membership_status', ['renewed', 'new']);
             $table->string('chapter');
             $table->string('year_chap_no_natl_no');
             $table->string('photo');
-            $table->enum('membership', ['regular', 'associate']);
+            $table->enum('membership', Member::$memberships);
             $table->string('prc_registration_no');
             $table->date('registration_date');
 
@@ -43,7 +38,7 @@ class CreateMembersTable extends Migration
             $table->date('date_of_birth');
             $table->string('place_of_birth');
             $table->enum('gender', ['male', 'female']);
-            $table->enum('civil_status', ['single', 'married', 'divorced', 'widowed']);
+            $table->enum('civil_status', Member::$civil_statuses);
             $table->string('religion')->nullable();
             $table->string('home_address');
             $table->string('office_tel_no');

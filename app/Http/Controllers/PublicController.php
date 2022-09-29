@@ -23,7 +23,7 @@ class PublicController extends Controller
     public function events()
     {
         return view('events', [
-            'events' => Event::all()
+            'events' => Event::orderBy('start_date')->limit(6)->get()
         ]);
     }
 

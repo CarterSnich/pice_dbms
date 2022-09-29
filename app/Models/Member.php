@@ -11,6 +11,17 @@ class Member extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public static $roles = [
+        'super_admin',
+        'president',
+        'secretary',
+        'treasure',
+        'information_officer'
+    ];
+
+    public static $memberships = ['regular', 'associate', 'lifetime', 'affiliate'];
+    public static $civil_statuses = ['single', 'married', 'divorced', 'widowed'];
+
     protected $fillable = [
         // user account
         'membership_id',
