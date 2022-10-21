@@ -55,6 +55,10 @@
             gap: .75rem;
         }
 
+        .section>.membership-instructions>ol>li::marker {
+            font-weight: bold;
+        }
+
         .section>.membership-instructions>ul>li>a::before {
             content: '📧';
             white-space: nowrap;
@@ -93,10 +97,12 @@
         <div class="membership">
             <h4>REGULAR MEMBERSHIP</h4>
             <p>A Regular Member shall be one who is duly registered in the rolls of the Professional Regulation Commission as a Civil Engineer.</p>
-            <div class="">
-                <a class="form-link" href="/application">Apply now</a>
-                <button class="submit-dialog-button">Submit form</button>
-            </div>
+            @if (auth('member')->check())
+                <div class="">
+                    <a class="form-link" href="/application">Apply now</a>
+                    <button class="submit-dialog-button">Submit form</button>
+                </div>
+            @endif
         </div>
         <div class="membership-instructions">
             <h4>How to Apply for a Regular Membership</h4>
@@ -114,10 +120,12 @@
         <div class="membership">
             <h4>ASSOCIATE MEMBERSHIP</h4>
             <p>An Associate member shall be one who has acquired the degree of Bachelor of Science in Civil Engineering (BSCE) or its equivalent from any recognized engineering institution in the Philippines or abroad but who has not yet been admitted to the practice of Civil Engineering by the PRC.</p>
-            <div>
-                <a class="form-link" href="/application">Apply now</a>
-                <button class="submit-dialog-button">Submit form</button>
-            </div>
+            @if (auth('member')->check())
+                <div class="">
+                    <a class="form-link" href="/application">Apply now</a>
+                    <button class="submit-dialog-button">Submit form</button>
+                </div>
+            @endif
         </div>
         <div class="membership-instructions">
             <h4>How to Apply for an Associate Membership</h4>
@@ -127,6 +135,58 @@
                 <li>Once validated, the PICE National Headquarters will call you for your certificate of membership and ID.</li>
                 <li>You may also apply for membership through the PICE Chapters in your region.</li>
             </ul>
+        </div>
+    </div>
+
+    {{-- Affiliate membership --}}
+    <div class="section">
+        <div class="membership">
+            <h4>AFFILIATE MEMBERSHIP</h4>
+            <p>Must be a member of PICE Chapter and must be member in good standing.</p>
+            @if (auth('member')->check())
+                <div class="">
+                    <a class="form-link" href="/application">Apply now</a>
+                    <button class="submit-dialog-button">Submit form</button>
+                </div>
+            @endif
+        </div>
+        <div class="membership-instructions">
+            <h4>How to Apply for an Affiliate Membership</h4>
+            <ul>
+                <li>Download the membership application form and fill up all information.</li>
+                <li>Pay the corresponding membership fee of Php2,150.00 through PayPal. If you do not have a credit card pay the corresponding membership fee at PICE BDO Account. Please scan the deposit slip indicating your name and email to <a href="mailto:picemembership@outlook.com" rel="noopener noreferrer" target="_blank">picemembership@outlook.com</a> together with your filled up membership registration form, copy of your diploma and a high-resolution photo (preferably 2×2). Membership is valid for one (1) year. Annual renewals cost Php1,000.00.</li>
+                <li>Once validated, the PICE National Headquarters will call you for your certificate of membership and ID.</li>
+                <li>You may also apply for membership through the PICE Chapters in your region.</li>
+            </ul>
+        </div>
+    </div>
+
+    {{-- Life membership --}}
+    <div class="section">
+        <div class="membership">
+            <h4>LIFE MEMBERSHIP</h4>
+            <p>A Regular Member who had been continously of good standing for at least 10 years since his application to the Institute-Chapter is qualified as Life Member.</p>
+            @if (auth('member')->check())
+                <div class="">
+                    <a class="form-link" href="/application">Apply now</a>
+                    <button class="submit-dialog-button">Submit form</button>
+                </div>
+            @endif
+        </div>
+        <div class="membership-instructions">
+            <h4>Requirements to become a Life Membership</h4>
+            <ul>
+                <li>Duly accomplished Life Membership Application Form.</li>
+                <li>2"x2" inches size photo.</li>
+                <li>Payment of Life Membership Fee Php 10,000.00.</li>
+                <li>Endorsement of the Chapter.</li>
+            </ul>
+            <h4>Procedure</h4>
+            <ol>
+                <li>Fill up Life Membership Application Form.</li>
+                <li>Membership status of applicant is verified if qualified for life membership.</li>
+                <li>When all requirements are verified to be complete, receives payment of -</li>
+            </ol>
         </div>
     </div>
 

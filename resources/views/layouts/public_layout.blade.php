@@ -13,342 +13,8 @@
     {{-- water.css --}}
     <link rel="stylesheet" href="{{ asset('/css/water-dark.css') }}">
 
-    <style>
-        body {
-            font-family: Poppins;
-            margin: 0;
-            max-width: unset;
-            box-sizing: border-box;
-            padding: unset;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: #1c76c5;
-        }
-
-        /* vanta.js wrapper */
-        #vanta-bg {
-            position: fixed;
-            height: 100vh;
-            width: 100vw;
-            background-color: whitesmoke;
-            z-index: 0;
-        }
-
-        /* header */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1010;
-            background-color: inherit;
-        }
-
-        nav {
-            display: flex;
-        }
-
-        nav>a {
-            margin-inline: 1.25rem;
-        }
-
-        nav>a>img {
-            max-height: 64px;
-            width: auto;
-        }
-
-        nav>ul {
-            list-style: none;
-            display: flex;
-            gap: 3.25rem;
-            margin-block: auto;
-            margin-inline: 2.25rem;
-        }
-
-        nav>ul>li>a {
-            display: block;
-            opacity: 0.6;
-            color: whitesmoke;
-            transition: opacity .3s;
-            position: relative;
-        }
-
-        nav>ul>li>a>div {
-            opacity: 0;
-            height: 4px;
-            width: 100%;
-            bottom: -0.5rem;
-            background-color: #328af1;
-            position: absolute;
-            border-radius: .934rem;
-            pointer-events: none;
-            position: absolute;
-            transition: opacity .3s;
-        }
-
-        nav>ul>li>a:hover,
-        nav>ul>li>a.active {
-            opacity: 1;
-            color: whitesmoke;
-            text-decoration: none;
-        }
-
-        nav>ul>li>a:hover>div,
-        nav>ul>li>a.active>div {
-            opacity: 1;
-        }
-
-        nav>div {
-            font-size: smaller;
-            margin-inline: auto 1.25rem;
-            margin-block: auto;
-        }
-
-        nav>div>button {
-            margin: 0;
-        }
-
-        /* main */
-        main {
-            color: black;
-            position: relative;
-        }
-
-        /* footer */
-        footer {
-            padding-inline: 5rem;
-            padding-block: 3rem 1.25rem;
-            display: grid;
-            grid-template-columns: 2fr 3fr;
-            grid-column-gap: 1rem;
-            background-color: inherit;
-            position: relative;
-        }
-
-        footer>div.left {
-            display: flex;
-            flex-flow: column;
-        }
-
-        footer>div.left>div.branding {
-            margin-bottom: 2.25rem;
-        }
-
-        footer>div.left>p {
-            margin-bottom: auto
-        }
-
-        footer>div.left>div.socials>a {
-            display: block;
-            color: whitesmoke;
-        }
-
-        footer>div.left>div.socials {
-            display: flex;
-            flex-flow: row;
-            gap: 3.25rem;
-            justify-content: start;
-            margin: 1.25rem
-        }
-
-        footer>div.left>div.socials>a>svg {
-            height: 32px;
-            aspect-ratio: 1;
-        }
-
-        footer>div.right {
-            display: flex;
-            flex-flow: column;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        footer>div.reserves {
-            grid-column: 1/3;
-            align-items: center;
-            text-align: center
-        }
-
-
-        /* sign in dialog */
-        #signin-dialog {
-            width: 356px;
-        }
-
-        #signin-dialog input {
-            width: 100%
-        }
-
-        #signin-dialog,
-        dialog {
-            padding: 0;
-            z-index: 1100;
-        }
-
-        dialog>header:first-child {
-            margin: unset
-        }
-
-        #signin-dialog>header,
-        dialog>header {
-            margin: unset;
-        }
-
-        #signin-dialog>header>button,
-        dialog>header>button {
-            padding: 0;
-            background-color: transparent;
-            font-size: x-large;
-            margin: 0;
-            line-height: 1;
-            height: auto;
-            width: auto;
-            position: absolute;
-            right: 1.25rem;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-
-        #signin-dialog>header>button:hover,
-        dialog>header>button:hover {
-            opacity: 1;
-        }
-
-        #signin-dialog>form {
-            padding: 1.25rem;
-            display: flex;
-            flex-flow: column;
-            gap: .5rem
-        }
-
-        #signin-dialog>form input,
-        #signin-dialog>form button {
-            margin-right: unset;
-        }
-
-        #signin-dialog .registration-link-wrapper {
-            text-align: center;
-        }
-
-        #popup-alert-wrapper {
-            width: 512px;
-            z-index: 1011;
-            position: fixed;
-            top: 1.25rem;
-            left: 50%;
-            transform: translateX(-50%)
-        }
-
-        #popup-alert-wrapper .alert.alert-dismissible .btn-close:hover {
-            color: #000;
-            text-decoration: none;
-            opacity: 0.75;
-            background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
-        }
-
-        .account-menu-block {
-            position: relative;
-            color: black;
-        }
-
-        .account-menu-block>button {
-            display: contents;
-        }
-
-        .account-menu-block>button>img {
-            height: 32px;
-            width: 32px;
-            background-color: white;
-            border-radius: 50%
-        }
-
-        .account-menu-block>.account-menu-dropdown {
-            position: absolute;
-            top: calc(100% + 0.75rem);
-            right: -.75rem;
-            width: 200px;
-            background-color: whitesmoke;
-            border-radius: 6px;
-            background-color: #F5F5F5;
-            box-shadow: 1px 1px 4px #000;
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            outline: none
-        }
-
-        .account-menu-block>.account-menu-dropdown>a,
-        .account-menu-block>.account-menu-dropdown>button {
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-        }
-
-        .account-menu-block>.account-menu-dropdown>button {
-            background-color: unset;
-            color: #41adff;
-            padding: unset;
-            margin: unset;
-            border-radius: unset;
-            text-align: start;
-            color: #41adff;
-        }
-
-        .account-menu-block>.account-menu-dropdown>button:active {
-            position: static !important;
-            transform: none !important;
-            border: none
-        }
-
-        .account-menu-block>.account-menu-dropdown>a:active,
-        .account-menu-block>.account-menu-dropdown>button:active {
-            box-shadow: 0 0 0 2px #0096bfab;
-        }
-
-        .account-menu-block>.account-menu-dropdown>a:hover,
-        .account-menu-block>.account-menu-dropdown>button:hover {
-            background-color: #00000050;
-            color: whitesmoke
-        }
-
-        .account-menu-block>.account-menu-dropdown>a>*,
-        .account-menu-block>.account-menu-dropdown>button>* {
-            margin: 0.75rem;
-        }
-
-        .account-menu-block>.account-menu-dropdown>a>span,
-        .account-menu-block>.account-menu-dropdown>button>span {
-            margin: 0
-        }
-
-        .account-menu-block>.account-menu-dropdown>hr {
-            width: 100%;
-            background-color: #526980;
-            margin: 0;
-        }
-
-        .account-menu-block>.account-menu-dropdown>.profile-preview {
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            gap: .25rem;
-            padding: 0.75rem;
-        }
-
-        .account-menu-block>.account-menu-dropdown>.profile-preview>img {
-            height: 64px;
-            width: 64px;
-            border-radius: 50%;
-            background-color: whitesmoke;
-            border: 1px solid #526980;
-        }
-    </style>
+    {{-- public style --}}
+    <link rel="stylesheet" href="{{ asset('css/public-layout.css') }}">
 
     @yield('style')
 </head>
@@ -399,23 +65,31 @@
                 @if (auth('member')->check())
                     <div class="account-menu-block">
                         <button type="button" class="account-menu-dropdown-button">
-                            <img src="{{ asset('/storage/photos/' . auth('member')->user()->photo) }}" alt="">
+                            @if (auth('member')->user()->photo)
+                                <img src="{{ asset('/storage/photos/' . auth('member')->user()->photo) }}" alt="{{ auth('member')->user()->photo }}">
+                            @else
+                                <img src="{{ asset('/images/profile-logo.png') }}" alt="">
+                            @endif
                         </button>
                         <div class="d-none account-menu-dropdown">
                             <div class="profile-preview">
-                                <img src="{{ asset('/storage/photos/' . auth('member')->user()->photo) }}" alt="">
+                                @if (auth('member')->user()->photo)
+                                    <img src="{{ asset('/storage/photos/' . auth('member')->user()->photo) }}" alt="{{ auth('member')->user()->photo }}">
+                                @else
+                                    <img src="{{ asset('/images/profile-logo.png') }}" alt="">
+                                @endif
                                 <div>
                                     {{ auth('member')->user()->lastname }}, {{ auth('member')->user()->firstname }} {{ auth('member')->user()->middlname ? auth('member')->user()->middlename[0] : '' }}
                                 </div>
-                                <a href="#">My profile</a>
+                                <span>role</span>
                             </div>
                             <hr>
-                            <a href="/member/dashboard">
+                            <a href="/member/profile">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layout-text-window-reverse" viewBox="0 0 16 16">
                                     <path d="M13 6.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm0 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm-.5 2.5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5z" />
                                     <path d="M14 0a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12zM2 1a1 1 0 0 0-1 1v1h14V2a1 1 0 0 0-1-1H2zM1 4v10a1 1 0 0 0 1 1h2V4H1zm4 0v11h9a1 1 0 0 0 1-1V4H5z" />
                                 </svg>
-                                <span>Dashboard</span>
+                                <span>My profile</span>
                             </a>
                             <hr>
                             <a href="#">
@@ -427,14 +101,13 @@
                                 <span>Account setting</span>
                             </a>
                             <hr>
-                            <form action="/member/logout" id="account-menu-logout-form" method="POST"> @csrf </form>
-                            <button type="submit" form="account-menu-logout-form">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-                                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                            <a href="/member/logout">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+                                    <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
+                                    <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z" />
                                 </svg>
-                                <span>Logout</span>
-                            </button>
+                                <span>Sign out</span>
+                            </a>
                         </div>
                     </div>
                 @else
@@ -492,20 +165,20 @@
     {{-- signin dialog --}}
     @if (!auth('member')->check())
         <dialog id="signin-dialog">
-            <header style="">Sign in to PICE <button>&times;</button></header>
+            <header>Sign in to PICE <button>&times;</button></header>
             <form method="POST" action="/member/authenticate">
                 @csrf
                 <div>
-                    <label for="membership_id">Membership ID</label>
-                    <input type="text" id="membership_id" name="membership_id" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div>
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
                 </div>
                 <button type="submit">Sign in</button>
-                <div class="registration-link-wrapper">
-                    <a href="/member-registration">Register here</a>
+                <div class="member-signup-link-wrapper">
+                    <a href="/member-signup">Sign up here</a>
                 </div>
             </form>
         </dialog>

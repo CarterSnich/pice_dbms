@@ -2,19 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class MemberController extends Controller
 {
+    // signup
+    public function signup(Request $request)
+    {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email' => ['required', 'email', 'unique:members,email'],
+                'password' => ['required'],
+                'confirm_password' => ['required', 'same:password'],
+                'lastname' => ['required'],
+                'firstname' => ['required'],
+                'middelename'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return
+                back()
+                ->withInput()
+                ->withErrors($validator->errors());
+        }
+
+        $formFields = $request->all();
+        $hashed = Hash::make($formFields['password']);
+        $formFields['password'] = $hashed;
+
+        if (Member::create($formFields)) {
+            return
+                redirect()
+                ->intended('/')
+                ->with([
+                    'toast' => [
+                        'type' => 'success',
+                        'message' => 'Member account created. You may now sign-in.'
+                    ]
+                ]);
+        } else {
+            return
+                redirect()
+                ->back('/')
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Failed to create member account.'
+                    ]
+                ]);
+        }
+    }
+
+
     // authenticate
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'membership_id' => ['required'],
+            'email' => ['required'],
             'password' => ['required']
         ]);
 
@@ -82,11 +135,25 @@ class MemberController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    // dashboard
-    public function dashboard()
+
+    // appliction
+    public function application()
     {
-        return
-            view('member.dashboard');
+        return view('member.application');
+    }
+
+    // profile
+    public function profile()
+    {
+        $member = Member::where('id', '=', Auth::guard('member')->user()->id);
+        $application =
+            Application::orderBy('date')
+            ->where('member_id', '=', $member->id);
+
+        return view('member.profile', [
+            'member' => $member,
+            'application' => $application
+        ]);
     }
 
     public function edit_member(Member $member)

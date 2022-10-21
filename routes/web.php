@@ -1,92 +1,95 @@
 <?php
 
-use App\Http\Controllers\AdministrationController;
-use App\Http\Controllers\ApplicationController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\MemberController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicController;
-use App\Models\Member;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AdministrationController;
 
 
 /*
-|--------------------------------------------------------------------------
-| PUBLIC ROUTES
-|--------------------------------------------------------------------------
-*/
+ |--------------------------------------------------------------------------
+ | PUBLIC ROUTES
+ |--------------------------------------------------------------------------
+ */
 
-// public pages
-Route::get('/', [PublicController::class, 'index'])->name('home');
-Route::get('/about-us', [PublicController::class, 'about_us']);
-Route::get('/events', [PublicController::class, 'events']);
-Route::get('/events/{event}', [PublicController::class, 'event']);
-Route::get('/membership', [PublicController::class, 'membership']);
-Route::get('/application', [PublicController::class, 'application']);
-Route::get('/contact-us', [PublicController::class, 'contact_us']);
-Route::get('/privacy-statement', [PublicController::class, 'privacy_statement']);
+// Public pages
+Route::controller(PublicController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+    Route::get('/about-us',  'about_us');
+    Route::get('/events',  'events');
+    Route::get('/events/{event}',  'event');
+    Route::get('/membership',  'membership');
+    Route::get('/contact-us',  'contact_us');
+    Route::get('/privacy-statement',  'privacy_statement');
+    Route::get('/member-signup',  'member_signup')->middleware('guest:member');
+});
 
-// application routes
-Route::post('/application/submit', [ApplicationController::class, 'store'])->middleware('guest');
-Route::post('/application/submit_form', [ApplicationController::class, 'submit_form'])->middleware('guest');
 
+/* 
+ | --------------------------------------------------------------------------
+ | MEMBERS ROUTES
+ |--------------------------------------------------------------------------
+ */
+
+Route::controller(MemberController::class)->group(function () {
+    // members pages
+    Route::get('/application',  'application')->middleware('auth:member');
+    Route::get('/member/profile', 'profile')->name('member_profile')->middleware('auth:member');
+
+    // members route
+    Route::post('/member/authenticate',  'authenticate');
+    Route::get('/member/logout', 'logout')->middleware('auth:member');
+    Route::post('/member-signup', 'signup')->middleware('guest:member');
+});
+
+
+// application
+Route::controller(ApplicationController::class)->group(function () {
+    Route::post('/application/submit', 'store');
+    Route::post('/application/submit_form', 'submit_form');
+});
 
 /*
-|--------------------------------------------------------------------------
-| MEMBERS ROUTES
-|--------------------------------------------------------------------------
-*/
+ |--------------------------------------------------------------------------
+ | ADMINISTRATION
+ |--------------------------------------------------------------------------
+ */
 
-// members pages
-Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->middleware('auth:member');
-
-// members route
-Route::post('/member/authenticate', [MemberController::class, 'authenticate']);
-Route::post('/member/logout', [MemberController::class, 'logout']);
-
-
-
-/*
-|--------------------------------------------------------------------------
-| ADMINISTRATION ROUTES
-|--------------------------------------------------------------------------
-*/
+// Admin authentication
+Route::controller(AdministrationController::class)->group(function () {
+    Route::get('/administration',  'login')->middleware('guest:administrator');
+    Route::post('/administration/authenticate',  'authenticate')->middleware('guest:administrator');
+    Route::post('/administration/logout', 'logout')->middleware('auth:administrator');
+});
 
 // administration pages
-Route::get('/administration', [AdministrationController::class, 'login'])->middleware('guest:administrator');
-Route::get('/administration/members', [AdministrationController::class, 'members'])->middleware('auth:administrator');
-Route::get('/administration/applications', [AdministrationController::class, 'applications'])->middleware('auth:administrator');
-Route::get('/administration/membership_fees', [AdministrationController::class, 'membership_fees'])->middleware('auth:administrator');
-Route::get('/administration/events', [AdministrationController::class, 'events'])->middleware('auth:administrator');
-
-// Admin login
-Route::post('/administration/authenticate', [AdministrationController::class, 'authenticate']);
-Route::post('/administration/logout', [AdministrationController::class, 'logout'])->middleware('auth:administrator');
+Route::middleware('auth:administrator')->controller(AdministrationController::class)->group(function () {
+    Route::get('/administration/members',  'members');
+    Route::get('/administration/applications',  'applications');
+    Route::get('/administration/membership_fees', 'membership_fees');
+    Route::get('/administration/events',  'events');
+});
 
 // members
-Route::post('/administration/members/get_member', [MemberController::class, 'get_member'])->middleware('auth:administrator');
-Route::get('/administration/members/{member}/edit', [MemberController::class, 'edit_member'])->middleware('auth:administrator');
-Route::post('/administration/members/{member}/edit', [MemberController::class, 'update_member'])->middleware('auth:administrator');
+Route::middleware('auth:administrator')->controller(MemberController::class)->group(function () {
+    Route::post('/administration/members/get_member', 'get_member');
+    Route::get('/administration/members/{member}/edit', 'edit_member');
+    Route::post('/administration/members/{member}/edit', 'update_member');
+});
 
 // applications
-Route::post('/administration/applications/get_application', [ApplicationController::class, 'application'])->middleware('auth:administrator');
-Route::get('/administration/applications/form/{application}', [ApplicationController::class, 'form'])->middleware('auth:administrator');
-Route::post('/administration/applications/approve/{application}', [ApplicationController::class, 'approve'])->middleware('auth:administrator');
-Route::post('/administration/applications/reject/{application}', [ApplicationController::class, 'reject'])->middleware('auth:administrator');
-Route::post('/administration/applications/get_applications', [ApplicationController::class, 'get_applications'])->middleware('auth:administrator');
-
-// membership fees routes
-Route::post('/administration/membership_fees/paid/{application}', [ApplicationController::class, 'paid'])->middleware('auth:administrator');
+Route::middleware('auth:administrator')->controller(ApplicationController::class)->group(function () {
+    Route::post('/administration/applications/get_application', 'application');
+    Route::get('/administration/applications/form/{application}', 'form');
+    Route::post('/administration/applications/approve/{application}', 'approve');
+    Route::post('/administration/applications/reject/{application}', 'reject');
+    Route::post('/administration/applications/get_applications', 'get_applications');
+    Route::post('/administration/membership_fees/paid/{application}', 'paid');
+});
 
 // events
-Route::post('/administration/events', [EventController::class, 'store'])->middleware('auth:administrator');
+Route::middleware('auth:administrator')->controller(EventController::class)->group(function () {
+    Route::post('/administration/events', 'store');
+});

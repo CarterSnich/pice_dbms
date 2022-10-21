@@ -18,6 +18,10 @@ class CreateApplicationsTable extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
 
+            // member applicant
+            $table->unsignedBigInteger('member_id');
+            $table->foreign('member_id')->references('id')->on('members');
+
             // application date
             $table->string('application_id')->unique();
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -67,6 +71,7 @@ class CreateApplicationsTable extends Migration
             $table->string('processed_by')->nullable();
             $table->date('processed_date')->nullable();
             $table->string('encoded_by')->nullable();
+
             // payment
             $table->string('payment_or_no')->nullable();
             $table->boolean('paid')->default(false);

@@ -41,12 +41,6 @@ class PublicController extends Controller
         return view('membership');
     }
 
-    // appliction
-    public function application()
-    {
-        return view('application');
-    }
-
     // contact us
     public function contact_us()
     {
@@ -57,5 +51,11 @@ class PublicController extends Controller
     public function privacy_statement()
     {
         return view('privacy_statement');
+    }
+
+    // member registration
+    public function member_signup()
+    {
+        return view('member-signup');
     }
 }
