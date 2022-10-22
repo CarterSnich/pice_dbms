@@ -44,7 +44,7 @@
 @section('content')
     {{-- some random banner or whatnot --}}
     <div class="page-banner">
-        <img src="{{ asset('images/CONTACT-1536x240.png') }}" alt="">
+        <img src="{{ asset('images/contact.png') }}" alt="">
     </div>
 
     <div id="contact-wrapper">

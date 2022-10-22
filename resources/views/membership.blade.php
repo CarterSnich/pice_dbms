@@ -89,7 +89,7 @@
 @section('content')
     {{-- some random banner or whatnot --}}
     <div class="page-banner">
-        <img src="{{ asset('images/MEMBERSHIP-1-1536x240.png') }}" alt="">
+        <img src="{{ asset('images/membership.png') }}" alt="">
     </div>
 
     {{-- regular membership --}}
@@ -185,7 +185,11 @@
             <ol>
                 <li>Fill up Life Membership Application Form.</li>
                 <li>Membership status of applicant is verified if qualified for life membership.</li>
-                <li>When all requirements are verified to be complete, receives payment of -</li>
+                <li>When all requirements are verified to be complete, receives payment of Life Membership fee of Php10,000.00, if from Chapters Php5,000.00 (Chapter keeps its share of 50%).</li>
+                <li>Life membership application form must be endorsed of the Chapter President, Secretary and Treasurer.</li>
+                <li>Application with complete requirements will be presented for approval of the National Board of Directors.</li>
+                <li>Approval of the Life Membership Application is done during board meeting only.</li>
+                <li>Issuance of Life Membership Certificate is scheduled every Regional Conference, Midyear and National Conventions.</li>
             </ol>
         </div>
     </div>

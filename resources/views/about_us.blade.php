@@ -19,7 +19,7 @@
 @section('content')
     {{-- some random banner or whatnot --}}
     <div class="page-banner">
-        <img src="{{ asset('images/HISTORY-1536x240.png') }}" alt="">
+        <img src="{{ asset('images/history.png') }}" alt="">
     </div>
     {{-- pice mission --}}
     <div id="pice-mission" class="section">

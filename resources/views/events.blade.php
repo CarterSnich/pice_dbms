@@ -65,7 +65,7 @@
 @section('content')
     {{-- some random banner or whatnot --}}
     <div class="page-banner">
-        <img src="{{ asset('images/EVENTS-1536x240.png') }}" alt="">
+        <img src="{{ asset('images/events.png') }}" alt="">
     </div>
 
     {{-- featured events --}}
@@ -90,7 +90,7 @@
                                     @php
                                         $start_date = \Carbon\Carbon::create($event->start_date);
                                         $end_date = \Carbon\Carbon::create($event->end_date);
-
+                                        
                                         if ($start_date->equalTo($end_date)) {
                                             $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year}";
                                         } else {
