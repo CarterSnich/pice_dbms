@@ -164,63 +164,71 @@
         <ul class="list-unstyled ps-0">
 
             {{-- members --}}
-            <li class="mb-1">
-                <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#members-collapse" aria-expanded="{{ request()->is('administration/members') ? 'true' : 'false' }}">
-                    Members
-                </button>
-                <div class="collapse {{ request()->is('administration/members') ? 'show' : '' }}" id="members-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li>
-                            <a href="/administration/members?membership=all" class="link-dark rounded {{ request()->get('membership') == 'all' ? 'bg-info' : '' }}">
-                                All
-                            </a>
-                        </li>
-
-                        @foreach (App\Models\Member::$memberships as $type)
+            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'secretary']))
+                <li class="mb-1">
+                    <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#members-collapse" aria-expanded="{{ request()->is('administration/members') ? 'true' : 'false' }}">
+                        Members
+                    </button>
+                    <div class="collapse {{ request()->is('administration/members') ? 'show' : '' }}" id="members-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li>
-                                <a href="/administration/members?membership={{ $type }}" class="link-dark rounded {{ request()->get('membership') == $type ? 'bg-info' : '' }}">
-                                    {{ ucfirst($type) }}
+                                <a href="/administration/members?membership=all" class="link-dark rounded {{ request()->get('membership') == 'all' ? 'bg-info' : '' }}">
+                                    All
                                 </a>
                             </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </li>
+
+                            @foreach (App\Models\Application::MEMBERSHIP_TYPES as $type)
+                                <li>
+                                    <a href="/administration/members?membership={{ $type }}" class="link-dark rounded {{ request()->get('membership') == $type ? 'bg-info' : '' }}">
+                                        {{ ucfirst($type) }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </li>
+            @endif
 
             {{-- applications --}}
-            <li class="mb-1">
-                <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#applications-collapse" aria-expanded="{{ request()->is('administration/applications') ? 'true' : 'false' }}">
-                    Applications
-                </button>
-                <div class="collapse {{ request()->is('administration/applications') ? 'show' : '' }}" id="applications-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li>
-                            <a href="/administration/applications?status=pending" class="link-dark rounded {{ request()->get('status') == 'pending' ? 'bg-info' : '' }}">
-                                Pending
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/administration/applications?status=not_approved" class="link-dark rounded {{ request()->get('status') == 'not_approved' ? 'bg-info' : '' }}">
-                                Not Approved
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'secretary']))
+                <li class="mb-1">
+                    <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#applications-collapse" aria-expanded="{{ request()->is('administration/applications') ? 'true' : 'false' }}">
+                        Applications
+                    </button>
+                    <div class="collapse {{ request()->is('administration/applications') ? 'show' : '' }}" id="applications-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li>
+                                <a href="/administration/applications?status=pending" class="link-dark rounded {{ request()->get('status') == 'pending' ? 'bg-info' : '' }}">
+                                    Pending
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/administration/applications?status=not_approved" class="link-dark rounded {{ request()->get('status') == 'not_approved' ? 'bg-info' : '' }}">
+                                    Not Approved
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
 
             {{-- membership fees --}}
-            <li class="mb-1">
-                <a href="/administration/membership_fees" class="btn w-100 btn-toggle align-items-center rounded {{ request()->is('administration/membership_fees') ? 'bg-info' : '' }}">
-                    Membership fees
-                </a>
-            </li>
+            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'treasurer']))
+                <li class="mb-1">
+                    <a href="/administration/membership_fees" class="btn w-100 btn-toggle align-items-center rounded {{ request()->is('administration/membership_fees') ? 'bg-info' : '' }}">
+                        Membership fees
+                    </a>
+                </li>
+            @endif
 
             {{-- events --}}
-            <li class="mb-1">
-                <a href="/administration/events" class="btn btn-toggle w-100 align-items-center rounded {{ request()->is('administration/events') ? 'bg-info' : '' }}">
-                    Events
-                </a>
-            </li>
+            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'information_officer']))
+                <li class="mb-1">
+                    <a href="/administration/events" class="btn btn-toggle w-100 align-items-center rounded {{ request()->is('administration/events') ? 'bg-info' : '' }}">
+                        Events
+                    </a>
+                </li>
+            @endif
         </ul>
 
         <hr class="mt-auto">
@@ -232,10 +240,12 @@
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                 </svg>
-
-                <strong class="text-truncate">
-                    {{ auth()->user()->name }}
-                </strong>
+                <div class="flex-fill d-flex flex-column">
+                    <strong class="text-truncate">
+                        {{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}
+                    </strong>
+                    <small>{{ App\Models\Member::ROLES[auth()->user()->role] }}</small>
+                </div>
             </a>
             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2" style="">
                 <li><a class="dropdown-item" href="#">Settings</a></li>

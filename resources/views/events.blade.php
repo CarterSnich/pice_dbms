@@ -107,7 +107,7 @@
                                 </div>
                             </a>
                         </div>
-                        @if ($loop > 5)
+                        @if ($loop->iteration > 5)
                             <div class="col d-flex justify-content-center align-items-center">
                                 <a href="/events/all">
                                     <h2>More...</h2>

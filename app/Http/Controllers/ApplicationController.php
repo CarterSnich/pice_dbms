@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\Application;
-use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,20 +15,22 @@ class ApplicationController extends Controller
 {
 
     // store new application
-    public function store(Request $request)
+    public function store()
     {
+        $member = Member::where('id', '=', auth('member')->user()->id)->first();
+
         // perform validation checks
         $validator = Validator::make(
-            $request->all(),
+            $member->toArray(),
             [
                 // application details
                 'membership_status' => ['required', 'in:renewed,new'],
                 'chapter' => ['required'],
                 'year_chap_no_natl_no' => ['required'],
-                'photo' => ['required', 'image'],
-                'membership' => ['required', 'in:regular,associate'],
+                'photo' => ['required'],
+                'membership' => ['required', Rule::in(Application::MEMBERSHIP_TYPES)],
                 'prc_registration_no' => ['required',],
-                'registration_date' => ['required'],
+                'registration_date' => ['required', 'date'],
 
                 // applicant information
                 'lastname' => ['required'],
@@ -54,9 +56,6 @@ class ApplicationController extends Controller
                 'post_graduate_college' => ['required'],
                 'post_graduate_year' => ['required', 'digits:4'],
                 'fields_of_specialization' => ['required'],
-            ],
-            [
-                'date_of_birth.required' => 'Enter a valid date.'
             ]
         );
 
@@ -69,13 +68,13 @@ class ApplicationController extends Controller
                     'data' => $validator->errors(),
                     'toast' => [
                         'type' => 'warning',
-                        'message' => 'Please, check your inputs.'
+                        'message' => 'Please, check your profile first.'
                     ]
                 ]);
         } else {
             // get all pending applications related to prc registration no
             $pending_count = Application::where([
-                ['prc_registration_no', '=', $request['prc_registration_no']],
+                ['prc_registration_no', '=', $member->prc_registration_no],
                 ['status', '=', 'pending']
             ])->get();
 
@@ -91,80 +90,37 @@ class ApplicationController extends Controller
                         ]
                     ]);
             } else {
-                // get the member that has the prc registration number from the application, if any
-                $member = Member::where('prc_registration_no', '=', $request->prc_registration_no)->first();
+                $formValues = $member->toArray();
 
-                // if prc reg no exists on a member and the application is new
-                if ($member && $request->membership_status == 'new') {
+                $formValues['member_id'] = $member->id;
+
+                // create application id
+                $formValues['application_id'] = strtoupper(Str::random(12));
+
+                // set membership fee
+                $formValues['membership_fee'] = array(
+                    'regular' => 700,
+                    'associate' => 900
+                )[$member->membership];
+
+                // store new application
+                if ($application = Application::create($formValues)) {
+                    // on success, redirect and generate PDF file of the form
                     return
                         response([
-                            'status' => 400,
-                            'data' => null,
-                            'toast' => [
-                                'type' => 'warning',
-                                'message' => 'New memberships must not be an existing member.'
-                            ]
+                            'status' => 200,
+                            'data' => Application::where('id', '=', $application->id)->first(),
+                            'toast' => null
                         ]);
-                }
-
-                // if prc reg no doesnt exist on a and the application is renewed
-                if (!$member && $request->membership_status == 'renewed') {
-                    return
-                        response([
-                            'status' => 400,
-                            'data' => null,
-                            'toast' => [
-                                'type' => 'warning',
-                                'message' => 'Renewed/Reinstated membership must be an existing member.'
-                            ]
-                        ]);
-                }
-
-                // store photo
-                if ($request->file('photo')->store('photos')) {
-                    // on success storing photo, store input values for storing hashed file name
-                    $formValues = $request->all();
-                    $formValues['photo'] = $request->file('photo')->hashName();
-
-                    // create application id
-                    $formValues['application_id'] = strtoupper(Str::random(12));
-
-                    // set membership fee
-                    $formValues['membership_fee'] = array(
-                        'regular' => 700,
-                        'associate' => 900
-                    )[$request->membership];
-
-                    // store new application
-                    if ($application = Application::create($formValues)) {
-                        // on success, redirect and generate PDF file of the form
-                        return
-                            response([
-                                'status' => 200,
-                                'data' => Application::where('id', '=', $application->id)->first(),
-                                'toast' => null
-                            ]);
-                    } else {
-                        // on failed, redirect back without inputs
-                        return
-                            response([
-                                'status' => 500,
-                                'data' => null,
-                                'toast' => [
-                                    'type' => 'warning',
-                                    'message' => 'Failed to submit application.'
-                                ]
-                            ]);
-                    }
                 } else {
-                    // on failed storing photo, redirect back without inputs
+                    // on failed, redirect back without inputs
                     return
                         response([
                             'status' => 500,
                             'data' => null,
                             'toast' => [
                                 'type' => 'warning',
-                                'message' => 'Failed to upload photo.'
+                                'message' => 'Failed to submit application.'
                             ]
                         ]);
                 }

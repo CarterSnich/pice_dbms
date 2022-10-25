@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Member;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MemberFactory extends Factory
@@ -15,44 +17,16 @@ class MemberFactory extends Factory
     {
         return [
             // user account
-            'membership_id',
-            'password',
+            'email' => 'admin@pice.org',
+            'password' =>  Hash::make('admin'),
 
-            // application details
-            'membership_status',
-            'chapter',
-            'year_chap_no_natl_no',
-            'photo',
-            'membership',
-            'prc_registration_no',
-            'registration_date',
+            // role
+            'role' => 'super_admin',
 
-            // applicant information
-            'lastname',
-            'firstname',
-            'middlename',
-            'date_of_birth',
-            'place_of_birth',
-            'gender',
-            'civil_status',
-            'religion',
-            'home_address',
-            'office_tel_no',
-            'mobile_phone_no',
-            'company_name',
-            'email',
-            'company_address',
-            'position',
-            'sector',
-
-            // educational details
-            'baccalaureate_degree',
-            'baccalaureate_college',
-            'baccalaureate_year',
-            'post_graduate_degree',
-            'post_graduate_college',
-            'post_graduate_year',
-            'fields_of_specialization',
+            // member information
+            'lastname' => 'admin',
+            'firstname' => 'admin',
+            'middlename' => 'admin'
         ];
     }
 }

@@ -9,7 +9,20 @@ class Application extends Model
 {
     use HasFactory;
 
+    public const MEMBERSHIP_STATUSES  = ['renewed', 'new'];
+    public const APPLICATION_STATUSES = [
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'not_approved' => 'Not Approved'
+    ];
+    public const MEMBERSHIP_TYPES = ['regular', 'associate', 'affiliate', 'lifetime'];
+    public const CIVIL_STATUSES = ['single', 'married', 'divorced', 'widowed'];
+
     protected $fillable = [
+
+        // member applicant
+        'member_id',
+
         // application
         'application_id',
         'reject_reason',

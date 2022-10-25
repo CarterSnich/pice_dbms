@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Application;
 use App\Models\Member;
+use App\Models\Religion;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -62,7 +63,6 @@ class MemberController extends Controller
         }
     }
 
-
     // authenticate
     public function authenticate(Request $request)
     {
@@ -70,6 +70,17 @@ class MemberController extends Controller
             'email' => ['required'],
             'password' => ['required']
         ]);
+
+        if (Member::where('email', '=', $request->email)->where('role', '!=', 'member')->first()) {
+            return
+                back()
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Invalid credentials.'
+                    ]
+                ]);
+        }
 
         if (Auth::guard('member')->attempt($credentials)) {
             $request->session()->regenerate();
@@ -129,6 +140,103 @@ class MemberController extends Controller
         }
     }
 
+    public function update(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                // member name
+                'lastname' => ['required'],
+                'firstname' => ['required'],
+                'middlename' => ['nullable'],
+
+                // registration details
+                'membership_status' => ['required', Rule::in(Application::MEMBERSHIP_STATUSES)],
+                'chapter' => ['required'],
+                'year_chap_no_natl_no' => ['required'],
+                'photo' => ['nullable', 'image'],
+                'membership' => ['required', Rule::in(Application::MEMBERSHIP_TYPES)],
+                'prc_registration_no' => ['required'],
+                'registration_date' => ['required', 'date'],
+
+                // member information
+                'date_of_birth' => ['required', 'date'],
+                'place_of_birth' => ['required'],
+                'gender' => ['required', 'in:male,female'],
+                'civil_status' => ['required', Rule::in(Member::CIVIL_STATUSES)],
+                'religion' => ['required', Rule::in(array_keys(Religion::$religions))],
+                'home_address' => ['required'],
+                'office_tel_no' => ['required'],
+                'mobile_phone_no' => ['required', 'regex:/(09)[0-9]{9}/'],
+                'company_name' => ['required'],
+                'company_address' => ['required'],
+                'position' => ['required'],
+                'sector' => ['required'],
+
+                // educational details
+                'baccalaureate_degree' => ['required'],
+                'baccalaureate_college' => ['required'],
+                'baccalaureate_year' => ['required'],
+                'post_graduate_degree' => ['required'],
+                'post_graduate_college' => ['required'],
+                'post_graduate_year' => ['required'],
+                'fields_of_specialization' => ['required'],
+
+            ]
+        );
+
+        if ($validator->fails()) {
+            return
+                back()
+                ->withErrors($validator->errors())
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Please, check your inputs.'
+                    ],
+                    'profile-update-failed' => true
+                ]);
+        }
+
+
+        $formFields = $validator->validated();
+
+        if ($request->has('photo')) {
+            if ($request->file('photo')->store('photos')) {
+                $formFields['photo'] = $request->file('photo')->hashName();
+            } else {
+                return
+                    redirect('/member/profile')
+                    ->with([
+                        'toast' => [
+                            'type' => 'warning',
+                            'message' => 'Failed to upload photo.'
+                        ]
+                    ]);
+            }
+        }
+
+        if (Member::where('id', '=', auth('member')->user()->id)->update($formFields)) {
+            return
+                redirect('/member/profile')
+                ->with([
+                    'toast' => [
+                        'type' => 'success',
+                        'message' => 'Profile updated.'
+                    ]
+                ]);
+        } else {
+            return
+                back()
+                ->with([
+                    'toast' => [
+                        'type' => 'warning',
+                        'message' => 'Failed to update profile.'
+                    ]
+                ]);
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | PAGE ROUTES
@@ -139,13 +247,15 @@ class MemberController extends Controller
     // appliction
     public function application()
     {
-        return view('member.application');
+        return view('member.application', [
+            'member' => Member::where('id', '=', auth('member')->user()->id)->first()
+        ]);
     }
 
     // profile
     public function profile()
     {
-        $member = Member::where('id', '=', Auth::guard('member')->user()->id);
+        $member = Member::where('id', '=', Auth::guard('member')->user()->id)->first();
         $application =
             Application::orderBy('date')
             ->where('member_id', '=', $member->id);

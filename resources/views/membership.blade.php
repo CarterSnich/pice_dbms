@@ -99,7 +99,7 @@
             <p>A Regular Member shall be one who is duly registered in the rolls of the Professional Regulation Commission as a Civil Engineer.</p>
             @if (auth('member')->check())
                 <div class="">
-                    <a class="form-link" href="/application">Apply now</a>
+                    {{-- <a class="form-link" href="/application">Apply now</a> --}}
                     <button class="submit-dialog-button">Submit form</button>
                 </div>
             @endif
@@ -122,7 +122,7 @@
             <p>An Associate member shall be one who has acquired the degree of Bachelor of Science in Civil Engineering (BSCE) or its equivalent from any recognized engineering institution in the Philippines or abroad but who has not yet been admitted to the practice of Civil Engineering by the PRC.</p>
             @if (auth('member')->check())
                 <div class="">
-                    <a class="form-link" href="/application">Apply now</a>
+                    {{-- <a class="form-link" href="/application">Apply now</a> --}}
                     <button class="submit-dialog-button">Submit form</button>
                 </div>
             @endif
@@ -145,7 +145,7 @@
             <p>Must be a member of PICE Chapter and must be member in good standing.</p>
             @if (auth('member')->check())
                 <div class="">
-                    <a class="form-link" href="/application">Apply now</a>
+                    {{-- <a class="form-link" href="/application">Apply now</a> --}}
                     <button class="submit-dialog-button">Submit form</button>
                 </div>
             @endif
@@ -168,7 +168,7 @@
             <p>A Regular Member who had been continously of good standing for at least 10 years since his application to the Institute-Chapter is qualified as Life Member.</p>
             @if (auth('member')->check())
                 <div class="">
-                    <a class="form-link" href="/application">Apply now</a>
+                    {{-- <a class="form-link" href="/application">Apply now</a> --}}
                     <button class="submit-dialog-button">Submit form</button>
                 </div>
             @endif

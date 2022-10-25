@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Administrator;
 use App\Models\Application;
+use App\Models\Member;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,8 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // admin
-        Administrator::factory(1)->create();
+        // admin member
+        Member::factory()->create();
+
+
 
         // // applications
         // for ($i = 0; $i < 120; $i++) {

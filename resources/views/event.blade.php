@@ -21,9 +21,9 @@
 
 @section('content')
     {{-- some random banner or whatnot --}}
-    <div class="page-banner">
+    {{-- <div class="page-banner">
         <img src="{{ asset('images/EVENTS-1536x240.png') }}" alt="">
-    </div>
+    </div> --}}
 
     {{-- event --}}
     <div id="event-wrapper" class="section">
@@ -35,7 +35,7 @@
                 use Carbon\Carbon;
                 $start_date = Carbon::create($event->start_date);
                 $end_date = Carbon::create($event->end_date);
-
+                
                 if ($start_date->equalTo($end_date)) {
                     $date_duration = "{$start_date->englishMonth} {$start_date->day}, {$start_date->year}";
                 } else {

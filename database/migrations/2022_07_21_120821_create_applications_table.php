@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Application;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -17,26 +18,27 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
 
             // member applicant
             $table->unsignedBigInteger('member_id');
             $table->foreign('member_id')->references('id')->on('members');
 
             // application date
-            $table->string('application_id')->unique();
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->enum('status', ['pending', 'approved', 'not_approved'])->default('pending');
+            $table->string('application_id')->unique();
+            $table->enum('status', Application::APPLICATION_STATUSES)->default('pending');
             $table->string('application_form')->nullable();
             $table->string('reject_reason')->nullable();
             $table->date('date_paid')->nullable();
             $table->decimal('membership_fee', 8, 2, true)->nullable();
 
             // application details
-            $table->enum('membership_status', ['renewed', 'new']);
+            $table->enum('membership_status', Application::MEMBERSHIP_STATUSES);
             $table->string('chapter');
             $table->string('year_chap_no_natl_no');
             $table->string('photo');
-            $table->enum('membership', ['regular', 'associate']);
+            $table->enum('membership', Application::MEMBERSHIP_TYPES);
             $table->string('prc_registration_no');
             $table->date('registration_date');
 
@@ -47,7 +49,7 @@ class CreateApplicationsTable extends Migration
             $table->date('date_of_birth');
             $table->string('place_of_birth');
             $table->enum('gender', ['male', 'female']);
-            $table->enum('civil_status', ['single', 'married', 'divorced', 'widowed']);
+            $table->enum('civil_status', Application::CIVIL_STATUSES);
             $table->string('religion')->nullable();
             $table->string('home_address');
             $table->string('office_tel_no');
@@ -75,9 +77,6 @@ class CreateApplicationsTable extends Migration
             // payment
             $table->string('payment_or_no')->nullable();
             $table->boolean('paid')->default(false);
-
-            // --------------------------------------
-            $table->timestamps();
         });
     }
 

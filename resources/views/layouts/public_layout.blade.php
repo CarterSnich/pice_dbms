@@ -22,7 +22,6 @@
 <body>
     {{-- vanta.js wrapper --}}
     <div id="vanta-bg"></div>
-
     {{-- toast alerts --}}
     <div id="popup-alert-wrapper">
         @if (session()->has('toast'))
@@ -32,7 +31,6 @@
             </div>
         @endif
     </div>
-
 
     {{-- header --}}
     <header>
@@ -81,7 +79,7 @@
                                 <div>
                                     {{ auth('member')->user()->lastname }}, {{ auth('member')->user()->firstname }} {{ auth('member')->user()->middlname ? auth('member')->user()->middlename[0] : '' }}
                                 </div>
-                                <span>role</span>
+                                <span>{{ App\Models\Member::ROLES[auth('member')->user()->role] }}</span>
                             </div>
                             <hr>
                             <a href="/member/profile">

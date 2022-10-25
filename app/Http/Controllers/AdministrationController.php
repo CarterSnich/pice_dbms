@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use App\Models\Administrator;
+use Illuminate\Support\Facades\Auth;
 
 class AdministrationController extends Controller
 {
@@ -23,12 +24,16 @@ class AdministrationController extends Controller
             'password' => ['required']
         ]);
 
-        if (auth('administrator')->attempt($formFields)) {
-            $request->session()->regenerate();
-            $administrator = Administrator::where('email', auth('administrator')->user()->email)->first();
-            $administrator->createToken('AuthToken');
-            return redirect()->intended('/administration/members');
+
+        if ($member = Member::where('email', '=', $request->email)->first()) {
+            if ($member->role !== 'member' && auth('administrator')->attempt($formFields)) {
+                $request->session()->regenerate();
+                $administrator = $member;
+                $administrator->createToken('AuthToken');
+                return redirect()->intended('/administration/members');
+            }
         }
+
 
         return back()->withErrors([
             'invalid_credentials' => 'Invalid credentials.'
@@ -58,12 +63,14 @@ class AdministrationController extends Controller
     // members page
     public function members(Request $request) // members page
     {
-        // if ($request->get('membership', null) == 'all') {
-        //     $members = Member::paginate(50);
-        // } else {
-        //     $members = Member::where('membership', '=', $request['membership'])->paginate(50);
-        // }
-        $members = Member::all();
+        // dd($request->get('membership'));
+        if (!$request->has('membership') || $request->get('membership') == 'all') {
+            $members = Member::where('role', '=', 'member')->get();
+        } else {
+            $members = Member::where('role', '=', 'member')
+                ->where('membership', '=', $request->get('membership'))
+                ->get();
+        }
 
         return view('administration.members', [
             'members' => $members

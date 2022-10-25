@@ -103,12 +103,12 @@
                         <div class="section-input">
                             {{-- renew --}}
                             <div class="radio-wrapper">
-                                <input type="radio" name="membership_status" id="new_membership_renewal" value="renewed" required {{ old('membership_status') == 'renewal' ? 'checked' : '' }}>
+                                <input type="radio" name="membership_status" id="new_membership_renewal" value="renewed" required {{ $member->membership_status == 'renewal' ? 'checked' : '' }}>
                                 <label class="fs-5" for="new_membership_renewal">Renewed/Reinstated</label>
                             </div>
                             {{-- new --}}
                             <div class="radio-wrapper">
-                                <input type="radio" name="membership_status" id="new_membership_new" value="new" {{ old('membership_status') == 'new' ? 'checked' : '' }}>
+                                <input type="radio" name="membership_status" id="new_membership_new" value="new" {{ $member->membership_status == 'new' ? 'checked' : '' }}>
                                 <label class="fs-5" for="new_membership_new">New</label>
                             </div>
                             {{-- error messages --}}
@@ -121,7 +121,7 @@
                     <div class="section">
                         <label class="section-title fs-4">Chapter</label>
                         <div class="section-input">
-                            <input type="text" class="w-100" name="chapter" value="{{ old('chapter') ?? 'Tacloban' }}" required>
+                            <input type="text" class="w-100" name="chapter" value="{{ $member->chapter ?? 'Tacloban' }}" required>
                             <div class="error-message text-danger" data-error-for="chapter"></div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                     <div class="section">
                         <label class="section-title fs-4">Year/Chap No/Natl No</label>
                         <div class="section-input">
-                            <input type="text" class="w-100" name="year_chap_no_natl_no" value="{{ old('year_chap_no_natl_no') }}" required>
+                            <input type="text" class="w-100" name="year_chap_no_natl_no" value="{{ $member->year_chap_no_natl_no }}" required>
                             <div class="error-message text-danger" data-error-for="year_chap_no_natl_no"></div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                         <label class="section-title fs-4">Photo (ID 1x1)</label>
                         <div class="section-input">
                             <div class="photo-preview mb-1">
-                                <img>
+                                <img src="{{ asset('/storage/photos/' . $member->photo) }}">
                             </div>
                             <input type="file" class="w-100" name="photo" required>
                             <div class="error-message text-danger" data-error-for="photo"></div>
@@ -152,10 +152,10 @@
                     <div class="section">
                         <label class="section-title fs-4">Membership</label>
                         <div class="section-input">
-                            @foreach (App\Models\Member::$memberships as $membership)
+                            @foreach (App\Models\Application::MEMBERSHIP_TYPES as $type)
                                 <div class="radio-wrapper">
-                                    <input type="radio" name="membership" id="membership_{{ $membership }}" value="regular" {{ old('membership') == $membership ? 'checked' : '' }} required>
-                                    <label class="fs-5" for="membership_{{ $membership }}">{{ ucfirst($membership) }}</label>
+                                    <input type="radio" name="membership" id="membership_{{ $type }}" value="regular" {{ $member->membership == $type ? 'checked' : '' }} required>
+                                    <label class="fs-5" for="membership_{{ $type }}">{{ ucfirst($type) }}</label>
                                 </div>
                             @endforeach
                             <div class="error-message text-danger" data-error-for="membership"></div>
@@ -166,7 +166,7 @@
                     <div class="section">
                         <label class="section-title fs-4">PRC Registration #</label>
                         <div class="section-input">
-                            <input type="text" class="w-100" name="prc_registration_no" value="{{ old('prc_registration_no') }}" required>
+                            <input type="text" class="w-100" name="prc_registration_no" value="{{ $member->prc_registration_no }}" required>
                             <div class="error-message text-danger" data-error-for="prc_registration_no"></div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                     <div class="section">
                         <label class="section-title fs-4">Registration Date</label>
                         <div class="section-input">
-                            <input type="date" class="w-100" name="registration_date" value="{{ old('registration_date') }}" required>
+                            <input type="date" class="w-100" name="registration_date" value="{{ $member->registration_date }}" required>
                             <div class="error-message text-danger" data-error-for="registration_date"></div>
                         </div>
                     </div>
@@ -544,6 +544,19 @@
                     console.error(err)
                     alert('Something happened.')
                     $('form#application-form button[type=submit]').attr('disabled', false)
+                })
+        })
+
+
+        $('.button-apply').on('click', function() {
+            fetch('/member/profile/apply')
+                .then(res => res.text())
+                .then(data => {
+                    console.dir(data)
+                })
+                .catch(err => {
+                    console.error(err)
+                    alert(err);
                 })
         })
 

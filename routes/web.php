@@ -42,12 +42,13 @@ Route::controller(MemberController::class)->group(function () {
     Route::post('/member/authenticate',  'authenticate');
     Route::get('/member/logout', 'logout')->middleware('auth:member');
     Route::post('/member-signup', 'signup')->middleware('guest:member');
+    Route::put('/member/profile', 'update')->middleware('auth:member');
 });
 
 
 // application
 Route::controller(ApplicationController::class)->group(function () {
-    Route::post('/application/submit', 'store');
+    Route::post('/member/profile/apply', 'store')->middleware('auth:member');
     Route::post('/application/submit_form', 'submit_form');
 });
 
@@ -59,7 +60,7 @@ Route::controller(ApplicationController::class)->group(function () {
 
 // Admin authentication
 Route::controller(AdministrationController::class)->group(function () {
-    Route::get('/administration',  'login')->middleware('guest:administrator');
+    Route::get('/administration', 'login')->middleware('guest:administrator');
     Route::post('/administration/authenticate',  'authenticate')->middleware('guest:administrator');
     Route::post('/administration/logout', 'logout')->middleware('auth:administrator');
 });
