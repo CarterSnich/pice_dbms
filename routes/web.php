@@ -71,6 +71,7 @@ Route::middleware('auth:administrator')->controller(AdministrationController::cl
     Route::get('/administration/applications',  'applications');
     Route::get('/administration/membership_fees', 'membership_fees');
     Route::get('/administration/events',  'events');
+    Route::get('/administration/events/carousel',  'events_carousel');
 });
 
 // members

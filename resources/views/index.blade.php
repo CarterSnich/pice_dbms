@@ -14,44 +14,32 @@
             background-color: transparent;
         }
     </style>
-    <div id="banner-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="1"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="1" aria-label="2"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="2" aria-label="3"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="3" aria-label="4"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="4" aria-label="5"></button>
-            <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="5" aria-label="6"></button>
+
+    @if ($carousel_images->count())
+        <div id="banner-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-indicators">
+                @for ($i = 0; $i < $carousel_images->count(); $i++)
+                    <button type="button" data-bs-target="#banner-carousel" data-bs-slide-to="{{ $i }}" @if ($i == 0) class="active" aria-current="true" @endif aria-label="{{ $i + 1 }}"></button>
+                @endfor
+            </div>
+            <div class="carousel-inner">
+                @foreach ($carousel_images as $image)
+                    <div class="carousel-item @if ($loop->first) active @endif">
+                        <img src="{{ asset('storage/events-carousel/' . $image->filename) }}" class="d-block w-100" alt="{{ $image->filename }}">
+                    </div>
+                @endforeach
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#banner-carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#banner-carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{{ asset('images/banner1.png') }}" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/banner2.jpg') }}" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/banner3.jpg') }}" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/banner4.jpg') }}" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/banner5.jpg') }}" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="{{ asset('images/banner6.png') }}" class="d-block w-100" alt="...">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#banner-carousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#banner-carousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+    @endif
+
 
     <style>
         #message-from-the-president {

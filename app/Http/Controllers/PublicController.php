@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventsCarousel;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -10,7 +11,9 @@ class PublicController extends Controller
     // index
     public function index()
     {
-        return view('index');
+        return view('index', [
+            'carousel_images' => EventsCarousel::all()
+        ]);
     }
 
     // about us

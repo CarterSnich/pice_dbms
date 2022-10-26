@@ -27,7 +27,7 @@ class CreateApplicationsTable extends Migration
             // application date
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('application_id')->unique();
-            $table->enum('status', Application::APPLICATION_STATUSES)->default('pending');
+            $table->enum('status', array_keys(Application::APPLICATION_STATUSES))->default('pending');
             $table->string('application_form')->nullable();
             $table->string('reject_reason')->nullable();
             $table->date('date_paid')->nullable();

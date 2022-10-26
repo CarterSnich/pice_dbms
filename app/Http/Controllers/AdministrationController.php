@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use App\Models\Administrator;
+use App\Models\EventsCarousel;
 use Illuminate\Support\Facades\Auth;
 
 class AdministrationController extends Controller
@@ -102,6 +103,14 @@ class AdministrationController extends Controller
     {
         return view('administration.events', [
             'events' => Event::all()
+        ]);
+    }
+
+    // events carousel 
+    public function events_carousel()
+    {
+        return view('administration.events-carousel', [
+            'carousel_images' => EventsCarousel::all()
         ]);
     }
 }

@@ -40,7 +40,10 @@
     <nav class="navbar sticky-top navbar-dark bg-dark">
         <div class="container-fluid">
             <span class="navbar-brand">Events</span>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#post-event-modal">Post event</button>
+            <div class="d-flex flex-row gap-2">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#post-event-modal">Post event</button>
+                <a href="/administration/events/carousel" class="btn btn-primary">Events carousel</a>
+            </div>
         </div>
     </nav>
 

@@ -61,7 +61,7 @@
                 <table class="table table-hover">
                     <thead class="bg-light">
                         <tr class="shadow-sm">
-                            <th scope="col">Membership ID</th>
+                            <th scope="col">#</th>
                             <th scope="col">Last name</th>
                             <th scope="col">First name</th>
                             <th scope="col">Middle name</th>
@@ -73,9 +73,7 @@
                         @foreach ($members as $member)
                             <tr data-member-id="{{ $member->id }}">
                                 <td>
-                                    <a href="#" class="text-decoration-none" data-member-id="{{ $member->id }}" data-bs-toggle="modal">
-                                        {{ $member->membership_id }}
-                                    </a>
+                                    {{ $loop->iteration }}
                                 </td>
                                 <td>
                                     <a href="#" class="text-decoration-none" data-member-id="{{ $member->id }}">

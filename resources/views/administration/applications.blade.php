@@ -406,6 +406,10 @@
 @section('script')
     <script src="{{ asset('js/moment.js') }}"></script>
     <script>
+        const ucfirst = function(string) {
+            return string[0].toUpperCase() + string.substring(1);
+        }
+
         // enable tooltips
         let tooltipTriggerList = [].slice.call(
             document.querySelectorAll('[data-has-tooltip="true"]')
@@ -453,11 +457,11 @@
                     $(`[data-application=date_of_birth]`).text(moment(application['date_of_birth']).format('LL'))
                     $(`[data-application=place_of_birth]`).text(application['place_of_birth'])
                     $(`[data-application=gender]`).text(ucfirst(application['gender']))
-                    $(`[data-application=civil_status]`).text(application['civil_status'])
-                    $(`[data-application=religion]`).text(application['religion'])
+                    $(`[data-application=civil_status]`).text(ucfirst(application['civil_status']))
+                    $(`[data-application=religion]`).text(RELIGIONS[application['religion']])
                     $(`[data-application=home_address]`).text(application['home_address'])
                     $(`[data-application=office_tel_no]`).text(application['office_tel_no'])
-                    $(`[data-application=mobile_phone_no]`).text(application['  mobile_phone_no'])
+                    $(`[data-application=mobile_phone_no]`).text(application['mobile_phone_no'])
                     $(`[data-application=company_name]`).text(application['company_name'])
                     $(`[data-application=email]`).text(application['email'])
                     $(`[data-application=company_address]`).text(application['company_address'])
@@ -619,16 +623,16 @@
                                             <a href="#" class="text-decoration-none" data-application-id="${application.id}">${application.date}</a>
                                         </td>
                                         <td>
-                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">{{ $application['lastname'] }}, {{ $application['firstname'] }} {{ $application['middlename'][0] ?? '' }}</a>
+                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">${ application.lastname }, ${application.firstname} ${ application.middlename ? application.middlename[0] : '' }}</a>
                                         </td>
                                         <td>
-                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">{{ $application['prc_registration_no'] }}</a>
+                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">${application.prc_registration_no }</a>
                                         </td>
                                         <td>
-                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">{{ ucfirst($application['membership']) }}</a>
+                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">${ ucfirst(application.membership) }</a>
                                         </td>
                                         <td>
-                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">{{ ucfirst($application['membership_status']) }}</a>
+                                            <a href="#" class="text-decoration-none" data-application-id="${application.id}">${ ucfirst(application['membership_status']) }</a>
                                         </td>
                                         <td>
                                             <a href="#" class="text-decoration-none" data-application-id="${application.id}">${application.status == 'pending' ? 'Pending' : 'Approved'}</a>
@@ -637,41 +641,41 @@
                                             <div class="action-buttons">
                                                 ${
                                                     application.application_form ? `
-                                                                                                                            <a class="btn btn-primary btn-sm" href="/administration/applications/form/${application.id}" data-has-tooltip="true" data-bs-placement="top" title="View application form" target="_blank">
-                                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
-                                                                                                                                    <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
-                                                                                                                                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
-                                                                                                                                </svg>
-                                                                                                                            </a>
-                                                                                                                        ` : `
-                                                                                                                            <a class="btn btn-primary btn-sm disabled" href="#" disabled>
-                                                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
-                                                                                                                                    <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
-                                                                                                                                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
-                                                                                                                                </svg>
-                                                                                                                            </a>
-                                                                                                                        `
+                                                                                            <a class="btn btn-primary btn-sm" href="/administration/applications/form/${application.id}" data-has-tooltip="true" data-bs-placement="top" title="View application form" target="_blank">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+                                                                                                    <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
+                                                                                                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
+                                                                                                </svg>
+                                                                                            </a>
+                                                                                        ` : `
+                                                                                            <a class="btn btn-primary btn-sm disabled" href="#" disabled>
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+                                                                                                    <path d="M5.523 12.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 6.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z" />
+                                                                                                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z" />
+                                                                                                </svg>
+                                                                                            </a>
+                                                                                        `
 
                                                 }
                                                 ${
                                                     application.date_paid && application.application_form ?
                                 `
-                                                    <button class="approve-application-button btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirm-approval-modal" data-application-id="${application.id}" data-has-tooltip="true" data-bs-placement="top" title="Approve">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                                    </svg>
-                                                    </button>
-                                                    `
+                                                                                                <button class="approve-application-button btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirm-approval-modal" data-application-id="${application.id}" data-has-tooltip="true" data-bs-placement="top" title="Approve">
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                                                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                                                                                </svg>
+                                                                                                </button>
+                                                                                                `
                                 :
                                 `
-                                                    <span class="d-inline-block" tabindex="0" data-has-tooltip="true" data-bs-placement="top" title="Cannot approve without payment and form">
-                                                    <button class="approve-application-button btn btn-primary btn-sm disabled" disabled>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                                                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
-                                                    </svg>
-                                                    </button>
-                                                    </span>
-                                                    `
+                                                                                                <span class="d-inline-block" tabindex="0" data-has-tooltip="true" data-bs-placement="top" title="Cannot approve without payment and form">
+                                                                                                <button class="approve-application-button btn btn-primary btn-sm disabled" disabled>
+                                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                                                                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                                                                                </svg>
+                                                                                                </button>
+                                                                                                </span>
+                                                                                                `
                                                                                 }
 
                                                                                 <button class="reject-application-button btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#reject-application-modal" data-application-id="${application.id}" data-has-tooltip="true" data-bs-placement="top" title="Reject application">
@@ -700,5 +704,107 @@
                     toast.show()
                 });
         }, 3000);
+
+        const RELIGIONS = {
+            "00": "None",
+            '01': "Aglipay",
+            '02': "Alliance of Bible Christian Communities of the Philippines",
+            '03': "Assemblies of God",
+            '04': "Association of Baptist Churches in Luzon, Visayas, and Mindanao",
+            '05': "Association of Fundamental Baptist Churches in the Philippines",
+            '06': "Baptist Conference of the Philippines",
+            '07': "Bible Baptist Church",
+            '08': "Bread of Life Ministries",
+            '09': "Buddhist",
+            '10': "Cathedral of Praise, Incorporated",
+            '11': "Charismatic Full Gospel Ministries",
+            '12': "Christ the Living Stone Fellowship",
+            '13': "Christian and Missionary Alliance Church of the Philippines",
+            '14': "Christian Missions in the Philippines",
+            '15': "Church of Christ",
+            '16': "Church of God World Mission in the Philippines",
+            '17': "Church of Jesus Christ of the Latter Day Saints",
+            '18': "Church of the Nazarene",
+            '19': "Christian Reformed Church in the Philippines, Incorporated",
+            '20': "Conservative of the Philippine Baptist Church",
+            '21': "Convention of the Philippine Baptist Church",
+            '22': "Crusaders of the Divine Church of Christ, Incorporated",
+            '23': "Door of Faith",
+            '24': "Evangelical Christian Outreach Foundation",
+            '25': "Evangelical Free Church of the Philippines",
+            '26': "Evangelical Presbyterian Church",
+            '27': "Faith Tabernacle Church (Living Rock Ministries)",
+            '28': "Filipino Assemblies of the First Born, Incorporated",
+            '29': "Foursquare Gospel Church in the Philippines",
+            '30': "Free Believers in Christ Fellowship",
+            '31': "Free Methodist Church",
+            '32': "Free Mission in the Philippines, Incorporated",
+            '33': "General Baptist Churches of the Philippines",
+            '34': "Good News Christian Churches",
+            '35': "Higher Ground Baptist Mission",
+            '36': "IEMELIF Reform Movement",
+            '37': "Iglesia Evangelica Unida de Cristo",
+            '38': "Iglesia Evangelista Methodista en Las Islas Filipinas (IEMELIF)",
+            '39': "Iglesia Filipina Independiente",
+            '40': "Iglesia ni Cristo",
+            '41': "Iglesia sa Dios Espiritu Santo, Incorporated",
+            '42': "Independent Baptist Churches of the Philippines",
+            '43': "Independent Baptist Missionary Fellowship",
+            '44': "International One Way Outreach",
+            '45': "Islam",
+            '46': "Jehovah's Witness",
+            '47': "Jesus Christ Saves Global Outreach",
+            '48': "Jesus is Alive Community, Incorporated",
+            '49': "Jesus is Lord Church",
+            '50': "Jesus Reigns Ministries",
+            '51': "Love of Christ International Ministries",
+            '52': "Lutheran Church of the Philippines",
+            '53': "Miracle Life Fellowship International",
+            '54': "Miracle Revival Church of the Philippines",
+            '55': "Missionary Baptist Churches of the Philippines",
+            '56': "Pentecostal Church of God Asia Mission",
+            '57': "Philippine Benevolent Missionaries Association",
+            '58': "Philippine Ecumenical Christian Church",
+            '59': "Philippine Episcopal Churche",
+            '60': "Philippine Evangelical Mission",
+            '61': "Philippine General Council of the Assemblies of God",
+            '62': "Philippine Good News Ministries",
+            '63': "Philippine Grace Gospel",
+            '64': "Philippine Independent Catholic Church",
+            '65': "Philippine Missionary Fellowship",
+            '66': "Philippine Pentecostal Holiness Church",
+            '67': "Potter's House Christian Center",
+            '68': "Presbyterian Church in the Philippines",
+            '69': "Roman Catholic, including Catholic Charismatic",
+            '70': "Salvation Army, Philippines",
+            '71': "Seventh Day Adventist",
+            '72': "Southern Baptist Church",
+            '73': "Take the Nation for Jesus Global Ministries (Corpus Christi)",
+            '74': "Things to Come",
+            '75': "UNIDA Evangelical Church",
+            '76': "United Church of Christ in the Philippines",
+            '77': "United Evangelical Church of the Philippines (Chinese)",
+            '78': "Union Espiritista Cristiana de Filipinas, Incorporated",
+            '79': "United Methodists Church",
+            '80': "United Pentecostal Church (Philippines), Incorporated",
+            '81': "Universal Pentecostal Church",
+            '82': "Victory Chapel Christian Fellowship",
+            '83': "Watch Tower Bible and Tract Society of the Philippines, Incorporated (Jehovah's Witnesses)",
+            '84': "Way of Salvation",
+            '85': "Way of Salvation Church Incorporated, The",
+            '86': "Wesleyan Church, The",
+            '87': "Word for the World",
+            '88': "Word International Ministries, Incorporated",
+            '89': "World Missionary Evangelism",
+            '90': "Worldwide Church of God",
+            '91': "Zion Christian Community Church",
+            '92': "Other Baptists",
+            '93': "Other Evangelical Churches",
+            '94': "Other Methodists",
+            '95': "Other Protestants",
+            '96': "Tribal religions",
+            '97': "Other religious affiliations",
+
+        }
     </script>
 @endsection
