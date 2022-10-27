@@ -14,19 +14,6 @@
             overflow-y: auto;
             overflow-x: hidden
         }
-
-        .img-fluid {
-            max-height: 256px;
-        }
-
-        #carousel-images-form li {
-            position: relative;
-        }
-
-        #carousel-images-form li::before {
-            position: absolute;
-            left: -1.25rem;
-        }
     </style>
 @endsection
 
@@ -35,10 +22,9 @@
     {{-- top nav bar --}}
     <nav class="navbar sticky-top navbar-dark bg-dark">
         <div class="container-fluid">
-            <span class="navbar-brand">Events Carousel</span>
+            <span class="navbar-brand">officers</span>
             <div class="d-flex flex-row gap-2">
-                <a href="/administration/events" class="btn btn-primary">Go back to Events</a>
-                <button type="submit" form="carousel-images-form" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#post-event-modal">Save</button>
+                <button type="submit" form="officers-form" class="btn btn-primary">Save</button>
             </div>
         </div>
     </nav>
@@ -48,12 +34,15 @@
         <form id="officers-form" method="POST" enctype="multipart/form-data">
             @csrf
                 
-                
+            <div class="row">
+                <div class="col-4">President</div>
+                <div class="col-8">
+                    <p></p>
+                </div>
+            </div>
 
 
         </form>
-
-        <div class="btn btn-primary btn-block mt-3 add-image">Add image</div>
 
     </div>
 @endsection

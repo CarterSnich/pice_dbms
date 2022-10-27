@@ -116,6 +116,11 @@ class AdministrationController extends Controller
 
     public function officers()
     {
-        return view('administration.officers');
+        foreach ($variable as $key => $value) {
+            // code...
+        }
+        return view('administration.officers', [
+
+        ]);
     }
 }
