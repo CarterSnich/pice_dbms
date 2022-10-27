@@ -10,6 +10,8 @@ class EventsCarousel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'filename'
+        'file_id',
+        'filename',
+        'carousel_order'
     ];
 }

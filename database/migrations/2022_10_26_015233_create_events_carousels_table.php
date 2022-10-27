@@ -17,7 +17,9 @@ class CreateEventsCarouselsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->string('file_id');
             $table->string('filename');
+            $table->unsignedInteger('carousel_order');
         });
     }
 

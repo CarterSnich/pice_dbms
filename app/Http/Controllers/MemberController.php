@@ -71,7 +71,7 @@ class MemberController extends Controller
             'password' => ['required']
         ]);
 
-        if (Member::where('email', '=', $request->email)->where('role', '!=', 'member')->first()) {
+        if (Member::where('email', '=', $request->email)->where('role', '!=', 'super_admin')->first()) {
             return
                 back()
                 ->with([

@@ -6,7 +6,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AdministrationController;
-
+use App\Http\Controllers\EventsCarouselController;
 
 /*
  |--------------------------------------------------------------------------
@@ -72,6 +72,7 @@ Route::middleware('auth:administrator')->controller(AdministrationController::cl
     Route::get('/administration/membership_fees', 'membership_fees');
     Route::get('/administration/events',  'events');
     Route::get('/administration/events/carousel',  'events_carousel');
+    Route::get('/administration/officers',  'officers');
 });
 
 // members
@@ -94,4 +95,9 @@ Route::middleware('auth:administrator')->controller(ApplicationController::class
 // events
 Route::middleware('auth:administrator')->controller(EventController::class)->group(function () {
     Route::post('/administration/events', 'store');
+});
+
+// events carousel images
+Route::middleware('auth:administrator')->controller(EventsCarouselController::class)->group(function () {
+    Route::post('/administration/events/carousel', 'store');
 });

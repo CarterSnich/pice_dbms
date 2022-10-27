@@ -15,6 +15,7 @@ class Member extends Authenticatable
     public const ROLES = [
         'super_admin' => 'Super Administrator',
         'president' => 'President',
+        'vice_president' => 'Vice President',
         'secretary' => 'Secretary',
         'treasure' => 'Treasure',
         'information_officer' => 'Information Officer',

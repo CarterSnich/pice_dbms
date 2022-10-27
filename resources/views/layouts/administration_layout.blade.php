@@ -164,7 +164,7 @@
         <ul class="list-unstyled ps-0">
 
             {{-- members --}}
-            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'secretary']))
+            @if (in_array(auth()->user()->role, ['super_admin', 'president','vice_president',  'secretary']))
                 <li class="mb-1">
                     <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#members-collapse" aria-expanded="{{ request()->is('administration/members') ? 'true' : 'false' }}">
                         Members
@@ -190,7 +190,7 @@
             @endif
 
             {{-- applications --}}
-            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'secretary']))
+            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'vice_president', 'secretary']))
                 <li class="mb-1">
                     <button class="btn btn-toggle w-100 align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#applications-collapse" aria-expanded="{{ request()->is('administration/applications') ? 'true' : 'false' }}">
                         Applications
@@ -213,7 +213,7 @@
             @endif
 
             {{-- membership fees --}}
-            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'treasurer']))
+            @if (in_array(auth()->user()->role, ['super_admin', 'president','vice_president',  'treasurer']))
                 <li class="mb-1">
                     <a href="/administration/membership_fees" class="btn w-100 btn-toggle align-items-center rounded {{ request()->is('administration/membership_fees') ? 'bg-info' : '' }}">
                         Membership fees
@@ -222,10 +222,19 @@
             @endif
 
             {{-- events --}}
-            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'information_officer']))
+            @if (in_array(auth()->user()->role, ['super_admin', 'president', 'vice_president', 'information_officer']))
                 <li class="mb-1">
                     <a href="/administration/events" class="btn btn-toggle w-100 align-items-center rounded {{ request()->is('administration/events') ? 'bg-info' : '' }}">
                         Events
+                    </a>
+                </li>
+            @endif
+
+            {{-- officers --}}
+            @if (in_array(auth()->user()->role, ['super_admin', 'president']))
+                <li class="mb-1">
+                    <a href="/administration/officers" class="btn btn-toggle w-100 align-items-center rounded {{ request()->is('administration/officers') ? 'bg-info' : '' }}">
+                        Officers
                     </a>
                 </li>
             @endif

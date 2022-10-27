@@ -110,7 +110,12 @@ class AdministrationController extends Controller
     public function events_carousel()
     {
         return view('administration.events-carousel', [
-            'carousel_images' => EventsCarousel::all()
+            'carousel_images' => EventsCarousel::orderBy('carousel_order')->get()
         ]);
+    }
+
+    public function officers()
+    {
+        return view('administration.officers');
     }
 }
