@@ -213,7 +213,7 @@
             @endif
 
             {{-- membership fees --}}
-            @if (in_array(auth()->user()->role, ['super_admin', 'president','vice_president',  'treasurer']))
+            @if (in_array(auth()->user()->role, ['super_admin', 'president','vice_president', 'treasurer']))
                 <li class="mb-1">
                     <a href="/administration/membership_fees" class="btn w-100 btn-toggle align-items-center rounded {{ request()->is('administration/membership_fees') ? 'bg-info' : '' }}">
                         Membership fees

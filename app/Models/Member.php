@@ -17,10 +17,11 @@ class Member extends Authenticatable
         'president' => 'President',
         'vice_president' => 'Vice President',
         'secretary' => 'Secretary',
-        'treasure' => 'Treasure',
+        'treasurer' => 'Treasurer',
         'information_officer' => 'Information Officer',
         'member' => 'Member'
     ];
+
 
     public const CIVIL_STATUSES = Application::CIVIL_STATUSES;
 

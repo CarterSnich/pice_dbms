@@ -31,7 +31,23 @@ class AdministrationController extends Controller
                 $request->session()->regenerate();
                 $administrator = $member;
                 $administrator->createToken('AuthToken');
-                return redirect()->intended('/administration/members');
+
+                switch ($administrator->role) {
+                    case 'super_admin':
+                    case 'president':
+                    case 'vice_president':
+                    case 'secretary':
+                        return redirect()->intended('/administration/members');
+
+                    case 'treasurer':
+                        return redirect()->intended('/administration/membership_fees');
+
+                    case 'information_officer':
+                        return redirect()->intended('/administration/events');                 
+
+                    default:
+                        return redirect()->intended('/');
+                }
             }
         }
 
