@@ -565,7 +565,7 @@
                         <div class="col-8">
                             <label class="h4 text-primary" for="chapter">Chapter</label>
                             <div class="ms-5">
-                                <input type="text" class="w-100" id="chapter" name="chapter" value="{{ $member->chapter }}" required>
+                                <input type="text" class="w-100" id="chapter" name="chapter" value="{{ $member->chapter ?? 'Tacloban' }}" required>
                                 @error('chapter')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -578,7 +578,7 @@
                         <div class="col-8">
                             <label class="h4 text-primary" for="year_chap_no_natl_no">Year/Chapter No./Nat'l No.</label>
                             <div class="ms-5">
-                                <input type="text" class="w-100" id="year_chap_no_natl_no" name="year_chap_no_natl_no" value="{{ $member->year_chap_no_natl_no }}" required>
+                                <input type="text" class="w-100" id="year_chap_no_natl_no" name="year_chap_no_natl_no" value="{{ $member->year_chap_no_natl_no ?? '2007' }}" required>
                                 @error('year_chap_no_natl_no')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
